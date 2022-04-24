@@ -7,4 +7,9 @@ public struct DriverInfo
     public string ShortName { get; internal set; }
     public DriverCategory Category { get; internal set; }
     public Nationality Nationality { get; internal set; }
+
+    public override string ToString()
+    {
+      return $"Driver: {this.FirstName} {this.LastName} ({this.ShortName}) Category: {this.Category}";
+    }
 }

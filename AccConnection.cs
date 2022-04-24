@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Acc.Lib.Messages;
 
@@ -7,147 +6,181 @@ namespace Acc.Lib;
 
 public class AccConnection
 {
-    private Task listenerTask;
-    private readonly AccMessageHandler messageHandler;
-    private bool isDisposed;
-    private UdpClient? udpClient;
+  private readonly Action<string> logger;
+  private readonly AccMessageHandler messageHandler;
+  private IDisposable connectionStateSubscription;
+  private bool isConnected;
+  private bool isDisposed;
+  private Task listenerTask;
+  private UdpClient udpClient;
 
-    public AccConnection(string ipAddress,
-        int port,
-        string displayName,
-        string connectionPassword,
-        string commandPassword,
-        int updateInterval)
+  public AccConnection(string ipAddress,
+    int port,
+    string displayName,
+    string connectionPassword,
+    string commandPassword,
+    int updateInterval,
+    Action<string> logger)
+  {
+    this.logger = logger;
+    this.IpAddress = ipAddress;
+    this.Port = port;
+    this.DisplayName = displayName;
+    this.ConnectionPassword = connectionPassword;
+    this.CommandPassword = commandPassword;
+    this.UpdateInterval = updateInterval;
+    this.ConnectionIdentifier = $"{this.IpAddress}:{this.Port}";
+
+    this.messageHandler = new AccMessageHandler(this.ConnectionIdentifier, this.Send, logger);
+  }
+
+  public IObservable<BroadcastingEvent> BroadcastingEvents =>
+    this.messageHandler.BroadcastingEvents;
+
+  public string CommandPassword { get; }
+  public string ConnectionIdentifier { get; }
+  public string ConnectionPassword { get; }
+  public string DisplayName { get; }
+  public IObservable<EntryListUpdate> EntryListUpdates => this.messageHandler.EntryListUpdates;
+  public string IpAddress { get; }
+  public int Port { get; }
+  public IObservable<RealtimeCarUpdate> RealTimeCarUpdates =>
+    this.messageHandler.RealTimeCarUpdates;
+  public IObservable<RealtimeUpdate> RealTimeUpdates => this.messageHandler.RealTimeUpdates;
+  public IObservable<TrackDataUpdate> TrackDataUpdates => this.messageHandler.TrackDataUpdates;
+  public int UpdateInterval { get; }
+
+  public Task Connect()
+  {
+    this.connectionStateSubscription =
+      this.messageHandler.ConnectionStateChanges.Subscribe(this.HandleConnectionStateChange);
+    this.udpClient = new UdpClient();
+    try
     {
-        this.IpAddress = ipAddress;
-        this.Port = port;
-        this.DisplayName = displayName;
-        this.ConnectionPassword = connectionPassword;
-        this.CommandPassword = commandPassword;
-        this.UpdateInterval = updateInterval;
-        this.ConnectionIdentifier = $"{this.IpAddress}:{this.Port}";
+      this.WaitForConnection();
+      this.listenerTask = this.HandleMessages();
+      return this.listenerTask;
+    }
+    catch(Exception exception)
+    {
+      this.LogMessage(exception.Message);
+      Debug.WriteLine(exception);
+      throw;
+    }
+  }
 
-        this.messageHandler = new AccMessageHandler(this.ConnectionIdentifier, this.Send);
+  // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+  // ~ACCUdpRemoteClient() {
+  //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+  //   Dispose(false);
+  // }
+
+  public void Dispose()
+  {
+    this.connectionStateSubscription.Dispose();
+    this.Dispose(true);
+    // GC.SuppressFinalize(this);
+  }
+
+  public async Task ShutdownAsync()
+  {
+    if(this.listenerTask is { IsCompleted: false })
+    {
+      this.messageHandler.Disconnect();
+      this.udpClient?.Close();
+      this.udpClient = null;
+      await this.listenerTask;
+    }
+  }
+
+  protected virtual void Dispose(bool disposing)
+  {
+    if(this.isDisposed)
+    {
+      return;
     }
 
-    public string CommandPassword { get; }
-    public string ConnectionIdentifier { get; }
-    public string DisplayName { get; }
-    public string IpAddress { get; }
-    public int Port { get; }
-    public int UpdateInterval { get; }
-    public string ConnectionPassword { get; }
-
-    public IObservable<BroadcastingEvent> BroadcastingEvents => this.messageHandler.BroadcastingEvents;
-    public IObservable<ConnectionState> ConnectionStateChanges => this.messageHandler.ConnectionStateChanges;
-    public IObservable<EntryListUpdate> EntryListUpdates => this.messageHandler.EntryListUpdates;
-    public IObservable<RealtimeCarUpdate> RealTimeCarUpdates => this.messageHandler.RealTimeCarUpdates;
-    public IObservable<RealtimeUpdate> RealTimeUpdates => this.messageHandler.RealTimeUpdates;
-    public IObservable<TrackDataUpdate> TrackDataUpdates => this.messageHandler.TrackDataUpdates;
-
-    // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-    // ~ACCUdpRemoteClient() {
-    //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-    //   Dispose(false);
-    // }
-
-    public void Dispose()
+    if(disposing)
     {
-        this.Dispose(true);
-        // GC.SuppressFinalize(this);
+      try
+      {
+        if(this.udpClient != null)
+        {
+          this.udpClient.Close();
+          this.udpClient.Dispose();
+          this.udpClient = null;
+        }
+      }
+      catch(Exception exception)
+      {
+        this.LogMessage(exception.Message);
+        Debug.WriteLine(exception);
+      }
     }
 
-    public async Task Connect()
+    // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+    // TODO: set large fields to null.
+
+    this.isDisposed = true;
+  }
+
+  private void HandleConnectionStateChange(ConnectionState connectionState)
+  {
+    this.isConnected = connectionState.IsConnected;
+    this.LogMessage($"Connection State Changed: {connectionState}");
+  }
+
+  private async Task HandleMessages()
+  {
+    this.messageHandler.RequestConnection(this.DisplayName,
+      this.ConnectionPassword,
+      this.UpdateInterval,
+      this.CommandPassword);
+    while(this.udpClient != null)
     {
-        this.udpClient = new UdpClient();
+      try
+      {
+        var udpPacket = await this.udpClient.ReceiveAsync();
+        await using var stream = new MemoryStream(udpPacket.Buffer);
+        using var reader = new BinaryReader(stream);
+        this.messageHandler.ProcessMessage(reader);
+      }
+      catch(ObjectDisposedException)
+      {
+        break;
+      }
+      catch(Exception exception)
+      {
+        this.LogMessage(exception.Message);
+        Debug.WriteLine(exception);
+      }
+    }
+  }
+
+  private void LogMessage(string message)
+  {
+    this.logger?.Invoke(message);
+  }
+
+  private void Send(byte[] payload)
+  {
+    this.udpClient.Send(payload);
+  }
+
+  private void WaitForConnection()
+  {
+    while(!this.isConnected)
+    {
+      try
+      {
         this.udpClient.Connect(this.IpAddress, this.Port);
-
-        await this.WaitForPortToBeAvailable();
-
-        this.listenerTask = this.HandleMessages();
+        this.isConnected = true;
+      }
+      catch
+      {
+        Thread.Sleep(5000);
+        this.LogMessage("Retrying connection");
+      }
     }
-
-    private async Task WaitForPortToBeAvailable()
-    {
-        var isConnected = false;
-        while(!isConnected)
-        {
-            isConnected = IPGlobalProperties.GetIPGlobalProperties()
-                                            .GetActiveUdpListeners()
-                                            .Any(p => p.Port == this.Port);
-            await Task.Delay(TimeSpan.FromSeconds(10));
-        }
-    }
-
-    public async Task ShutdownAsync()
-    {
-        if(this.listenerTask is {IsCompleted: false})
-        {
-            this.messageHandler.Disconnect();
-            this.udpClient?.Close();
-            this.udpClient = null;
-            await this.listenerTask;
-        }
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if(this.isDisposed)
-        {
-            return;
-        }
-
-        if(disposing)
-        {
-            try
-            {
-                if (this.udpClient != null)
-                {
-                    this.udpClient.Close();
-                    this.udpClient.Dispose();
-                    this.udpClient = null;
-                }
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
-
-        // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-        // TODO: set large fields to null.
-
-        this.isDisposed = true;
-    }
-
-    private async Task HandleMessages()
-    {
-        this.messageHandler.RequestConnection(this.DisplayName,
-            this.ConnectionPassword,
-            this.UpdateInterval,
-            this.CommandPassword);
-        while(this.udpClient != null)
-        {
-            try
-            {
-                var udpPacket = await this.udpClient.ReceiveAsync();
-                await using var stream = new MemoryStream(udpPacket.Buffer);
-                using var reader = new BinaryReader(stream);
-                this.messageHandler.ProcessMessage(reader);
-            }
-            catch(ObjectDisposedException)
-            {
-                break;
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
-    }
-
-    private void Send(byte[] payload)
-    {
-        this.udpClient?.Send(payload);
-    }
+  }
 }

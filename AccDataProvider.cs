@@ -6,26 +6,26 @@ namespace Acc.Lib;
 
 public class AccDataProvider
 {
-    private static IList<string> validCarCodes = new List<string>
-    {
-        "AMRV8",
-        "AR8EVO",
-        "AR8EVOII",
-        "BENTC",
-        "BMWM4",
-        "BMWM6",
-        "FER488",
-        "FER488EVO",
-        "HONNSX",
-        "LAMHUR",
-        "LAMHUREVO",
-        "LEXUSRC",
-        "MC720S",
-        "MERCAMG",
-        "MERCAMGEVO",
-        "NISGTR",
-        "PO991II"
-    };
+    private static readonly IList<string> validCarCodes = new List<string>
+                                                          {
+                                                            "AMRV8",
+                                                            "AR8EVO",
+                                                            "AR8EVOII",
+                                                            "BENTC",
+                                                            "BMWM4",
+                                                            "BMWM6",
+                                                            "FER488",
+                                                            "FER488EVO",
+                                                            "HONNSX",
+                                                            "LAMHUR",
+                                                            "LAMHUREVO",
+                                                            "LEXUSRC",
+                                                            "MC720S",
+                                                            "MERCAMG",
+                                                            "MERCAMGEVO",
+                                                            "NISGTR",
+                                                            "PO991II"
+                                                          };
 
     public static IEnumerable<CustomCar> GetCustomCars()
     {

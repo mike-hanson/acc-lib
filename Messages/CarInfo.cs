@@ -31,6 +31,6 @@ public class CarInfo
 
     public override string ToString()
     {
-        return $"RaceSession Number: {this.RaceNumber}, Driver: {this.Drivers[this.CurrentDriverIndex].ShortName} , Team: {this.TeamName}";
+        return $"Race Number: {this.RaceNumber}, Driver: {this.Drivers[this.CurrentDriverIndex].ShortName} , Team: {this.TeamName}";
     }
 }
