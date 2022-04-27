@@ -12,4 +12,6 @@ public struct DriverInfo
     {
       return $"Driver: {this.FirstName} {this.LastName} ({this.ShortName}) Category: {this.Category}";
     }
+
+    public string InitialAndLastName => $"{this.FirstName[..1]}. {this.LastName}";
 }
