@@ -61,28 +61,28 @@ public class AccMessageHandler
 
   public void ProcessMessage(BinaryReader reader)
   {
-    var messageType = (InboundMessageTypes)reader.ReadByte();
+    var messageType = (InboundMessageType)reader.ReadByte();
     switch(messageType)
     {
-      case InboundMessageTypes.BroadcastingEvent:
+      case InboundMessageType.BroadcastingEvent:
         this.ProcessBroadCastingEventMessage(reader);
         break;
-      case InboundMessageTypes.EntryList:
+      case InboundMessageType.EntryList:
         this.ProcessEntryListMessage(reader);
         break;
-      case InboundMessageTypes.EntryListCar:
+      case InboundMessageType.EntryListCar:
         this.ProcessEntryListCarMessage(reader);
         break;
-      case InboundMessageTypes.RealtimeUpdate:
+      case InboundMessageType.RealtimeUpdate:
         this.ProcessRealtimeUpdateMessage(reader);
         break;
-      case InboundMessageTypes.RealtimeCarUpdate:
+      case InboundMessageType.RealtimeCarUpdate:
         this.ProcessRealtimeCarUpdateMessage(reader);
         break;
-      case InboundMessageTypes.RegistrationResult:
+      case InboundMessageType.RegistrationResult:
         this.ProcessRegistrationResultMessage(reader);
         break;
-      case InboundMessageTypes.TrackData:
+      case InboundMessageType.TrackData:
         this.ProcessTrackDataMessage(reader);
         break;
       default:

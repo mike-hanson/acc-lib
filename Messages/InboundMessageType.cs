@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.Messages;
 
-public enum InboundMessageTypes : byte
+public enum InboundMessageType : byte
 {
     RegistrationResult = 1,
     RealtimeUpdate = 2,
