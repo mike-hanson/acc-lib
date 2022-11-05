@@ -3,11 +3,20 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Mike Hanson</Authors>
+    <Description>Provides an implementation of the protocol for using the the Broadcasting and other APIs of Assetto Corsa Cometizione</Description>
+    <PackageProjectUrl>https://github.com/testpossessed/acclib</PackageProjectUrl>
+    <Copyright>Copyright (c) Mike Hanson 2022</Copyright>
+    <RepositoryUrl>https://github.com/testpossessed/acclib</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove=".git" />
     <None Remove=".gitignore" />
+    <None Remove="LICENSE" />
   </ItemGroup>
 
   <ItemGroup>

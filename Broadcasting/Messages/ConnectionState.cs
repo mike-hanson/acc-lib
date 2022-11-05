@@ -1,8 +1,10 @@
-﻿namespace Acc.Lib.Messages;
+﻿using System;
+
+namespace Acc.Lib.Broadcasting.Messages;
 
 public class ConnectionState
 {
-    public ConnectionState(int connectionId, bool isConnected, bool isReadOnly, string? error = null)
+    public ConnectionState(int connectionId, bool isConnected, bool isReadOnly, string error = null)
     {
         this.ConnectionId = connectionId;
         this.IsConnected = isConnected;
@@ -11,7 +13,7 @@ public class ConnectionState
     }
 
     public int ConnectionId { get; }
-    public string? Error { get; }
+    public string Error { get; }
     public bool IsConnected { get; }
     public bool IsReadOnly { get; }
 

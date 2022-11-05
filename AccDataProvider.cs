@@ -80,7 +80,7 @@ public class AccDataProvider
         return elements[3] == "GT3";
     }
 
-    public static RaceSession? LoadRaceSession(string filePath)
+    public static RaceSession LoadRaceSession(string filePath)
     {
         Thread.Sleep(1000);
         try

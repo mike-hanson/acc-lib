@@ -13,6 +13,7 @@ public static class AccPathProvider
   private const string CustomsFolderName = "Customs";
   private const string CustomCarsFolderName = "Cars";
   private const string CustomLiveriesFolderName = "Liveries";
+  private const string AccountFileName = "account.json";
 
   static AccPathProvider()
   {
@@ -20,9 +21,10 @@ public static class AccPathProvider
       Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
         DocumentsFolderName);
 
+    AccountFilePath = Path.Combine(myDocumentsFolderPath, ConfigFolderName, AccountFileName);
     BroadcastingSettingsFilePath = Path.Combine(myDocumentsFolderPath,
-      ConfigFolderName,
-      BroadcastingSettingsFileName);
+                                                ConfigFolderName,
+                                                BroadcastingSettingsFileName);
     ConfigFolderPath = Path.Combine(myDocumentsFolderPath, ConfigFolderName);
     CustomCarsFolderPath =
       Path.Combine(myDocumentsFolderPath, CustomsFolderName, CustomCarsFolderName);
@@ -33,12 +35,13 @@ public static class AccPathProvider
     SeasonSettingsFilePath =
       Path.Combine(myDocumentsFolderPath, ConfigFolderPath, SeasonSettingsFileName);
     SavedReplaysFolderPath = Path.Combine(myDocumentsFolderPath,
-      ReplaysFolderName,
-      ReplaySavedFolderName);
+                                          ReplaysFolderName,
+                                          ReplaySavedFolderName);
     SetupsFolderPath = Path.Combine(myDocumentsFolderPath, SetupsFolderName);
     DocumentsFolderPath = myDocumentsFolderPath;
   }
 
+  public static string AccountFilePath { get; set; }
   public static string BroadcastingSettingsFilePath { get; }
   public static string ConfigFolderPath { get; }
   public static string CustomCarsFolderPath { get; }
@@ -47,5 +50,5 @@ public static class AccPathProvider
   public static string SavedReplaysFolderPath { get; }
   public static string SeasonSettingsFilePath { get; }
   public static string SetupsFolderPath { get; }
-  public static string ResultFolderPath { get; set; }
+  public static string ResultFolderPath { get; }
 }

@@ -1,14 +1,15 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
-using Acc.Lib.Messages;
+using Acc.Lib.Broadcasting.Messages;
 
-namespace Acc.Lib;
+namespace Acc.Lib.Broadcasting;
 
-public class AccConnection
+public class AccBroadcastingConnection
 {
   private readonly Action<string> logger;
-  private readonly AccMessageHandler messageHandler;
+  private readonly AccBroadcastingMessageHandler broadcastingMessageHandler;
   private IDisposable connectionStateSubscription;
   private bool isConnected;
   private bool isDisposed;
@@ -16,7 +17,7 @@ public class AccConnection
   private UdpClient udpClient;
   private IPEndPoint ipEndPoint;
 
-  public AccConnection(string ipAddress,
+  public AccBroadcastingConnection(string ipAddress,
     int port,
     string displayName,
     string connectionPassword,
@@ -34,29 +35,29 @@ public class AccConnection
     this.ConnectionIdentifier = $"{this.IpAddress}:{this.Port}";
     this.ipEndPoint = IPEndPoint.Parse(this.ConnectionIdentifier);
 
-    this.messageHandler = new AccMessageHandler(this.ConnectionIdentifier, this.Send, logger);
+    this.broadcastingMessageHandler = new AccBroadcastingMessageHandler(this.ConnectionIdentifier, this.Send, logger);
   }
 
   public IObservable<BroadcastingEvent> BroadcastingEvents =>
-    this.messageHandler.BroadcastingEvents;
+    this.broadcastingMessageHandler.BroadcastingEvents;
 
   public string CommandPassword { get; }
   public string ConnectionIdentifier { get; }
   public string ConnectionPassword { get; }
   public string DisplayName { get; }
-  public IObservable<EntryListUpdate> EntryListUpdates => this.messageHandler.EntryListUpdates;
+  public IObservable<EntryListUpdate> EntryListUpdates => this.broadcastingMessageHandler.EntryListUpdates;
   public string IpAddress { get; }
   public int Port { get; }
   public IObservable<RealtimeCarUpdate> RealTimeCarUpdates =>
-    this.messageHandler.RealTimeCarUpdates;
-  public IObservable<RealtimeUpdate> RealTimeUpdates => this.messageHandler.RealTimeUpdates;
-  public IObservable<TrackDataUpdate> TrackDataUpdates => this.messageHandler.TrackDataUpdates;
+    this.broadcastingMessageHandler.RealTimeCarUpdates;
+  public IObservable<RealtimeUpdate> RealTimeUpdates => this.broadcastingMessageHandler.RealTimeUpdates;
+  public IObservable<TrackDataUpdate> TrackDataUpdates => this.broadcastingMessageHandler.TrackDataUpdates;
   public int UpdateInterval { get; }
 
   public Task Connect()
   {
     this.connectionStateSubscription =
-      this.messageHandler.ConnectionStateChanges.Subscribe(this.HandleConnectionStateChange);
+      this.broadcastingMessageHandler.ConnectionStateChanges.Subscribe(this.HandleConnectionStateChange);
     this.udpClient = new UdpClient();
     this.udpClient.Client.ReceiveTimeout = 5000;
     try
@@ -90,7 +91,7 @@ public class AccConnection
   {
     if(this.listenerTask is { IsCompleted: false })
     {
-      this.messageHandler.Disconnect();
+      this.broadcastingMessageHandler.Disconnect();
       this.udpClient?.Close();
       this.udpClient = null;
       await this.listenerTask;
@@ -136,7 +137,7 @@ public class AccConnection
 
   private async Task HandleMessages()
   {
-    this.messageHandler.RequestConnection(this.DisplayName,
+    this.broadcastingMessageHandler.RequestConnection(this.DisplayName,
       this.ConnectionPassword,
       this.UpdateInterval,
       this.CommandPassword);
@@ -168,7 +169,7 @@ public class AccConnection
     var udpPacket = await this.udpClient.ReceiveAsync();
     await using var stream = new MemoryStream(udpPacket.Buffer);
     using var reader = new BinaryReader(stream);
-    this.messageHandler.ProcessMessage(reader);
+    this.broadcastingMessageHandler.ProcessMessage(reader);
   }
 
   private void Send(byte[] payload)
@@ -208,7 +209,6 @@ public class AccConnection
         else
         {
           this.LogMessage($"A connection to {this.ConnectionIdentifier} was made but timed out.");
-          this.isConnected = true;
         }
       }
       catch(Exception exception)

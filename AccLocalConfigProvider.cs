@@ -7,37 +7,46 @@ namespace Acc.Lib;
 
 public class AccLocalConfigProvider
 {
-  public static BroadcastingSettings? GetBroadcastingSettings()
-  {
-    if(!File.Exists(AccPathProvider.BroadcastingSettingsFilePath))
+    public static Account GetAccount()
     {
-      return null;
+        return DeserialiseConfigEntity<Account>(AccPathProvider.AccountFilePath);
     }
 
-    var content = File.ReadAllText(AccPathProvider.BroadcastingSettingsFilePath, Encoding.UTF8);
-    content = content.Replace(Environment.NewLine, "")
-                     .Replace("\0", "")
-                     .Replace("\n", "");
-    return JsonConvert.DeserializeObject<BroadcastingSettings>(content);
-  }
-
-  public static SeasonSettings? GetSeasonSettings()
-  {
-    if(!File.Exists(AccPathProvider.SeasonSettingsFilePath))
+    public static BroadcastingSettings GetBroadcastingSettings()
     {
-      return null;
+        return DeserialiseConfigEntity<BroadcastingSettings>(AccPathProvider
+                                                                 .BroadcastingSettingsFilePath);
     }
 
-    var content = File.ReadAllText(AccPathProvider.SeasonSettingsFilePath, Encoding.UTF8);
-    content = content.Replace(Environment.NewLine, "")
-                     .Replace("\0", "")
-                     .Replace("\n", "");
-    return JsonConvert.DeserializeObject<SeasonSettings>(content);
-  }
+    public static SeasonSettings GetSeasonSettings()
+    {
+        return DeserialiseConfigEntity<SeasonSettings>(AccPathProvider.SeasonSettingsFilePath);
+    }
 
-  public static void SaveBroadcastingSettings(BroadcastingSettings settings)
-  {
-    var json = JsonConvert.SerializeObject(settings);
-    File.WriteAllText(AccPathProvider.BroadcastingSettingsFilePath, json);
-  }
+    public static void SaveBroadcastingSettings(BroadcastingSettings settings)
+    {
+        var json = JsonConvert.SerializeObject(settings);
+        File.WriteAllText(AccPathProvider.BroadcastingSettingsFilePath, json);
+    }
+
+    private static T DeserialiseConfigEntity<T>(string filePath)
+        where T: class
+    {
+        if(!File.Exists(filePath))
+        {
+            return null;
+        }
+
+        var content = NormalisedContent(filePath);
+        return JsonConvert.DeserializeObject<T>(content);
+    }
+
+    private static string NormalisedContent(string filePath)
+    {
+        var content = File.ReadAllText(filePath, Encoding.UTF8);
+
+        return content.Replace(Environment.NewLine, "")
+                      .Replace("\0", "")
+                      .Replace("\n", "");
+    }
 }

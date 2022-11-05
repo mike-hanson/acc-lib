@@ -1,4 +1,6 @@
-﻿namespace Acc.Lib.Messages;
+﻿using System;
+
+namespace Acc.Lib.Broadcasting.Messages;
 
 public enum RaceSessionType
 {
