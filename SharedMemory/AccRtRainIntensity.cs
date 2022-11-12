@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum AccRainIntensity : int
+public enum AccRtRainIntensity : int
 {
     NoRain
   , Drizzle

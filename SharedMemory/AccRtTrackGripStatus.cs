@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum AccTrackGripStatus : int
+public enum AccRtTrackGripStatus : int
 {
     Green
   , Fast

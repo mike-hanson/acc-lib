@@ -8,23 +8,10 @@ public class AccDataProvider
 {
     private static readonly IList<string> validCarCodes = new List<string>
                                                           {
-                                                            "AMRV8",
-                                                            "AR8EVO",
-                                                            "AR8EVOII",
-                                                            "BENTC",
-                                                            "BMWM4",
-                                                            "BMWM6",
-                                                            "FER488",
-                                                            "FER488EVO",
-                                                            "HONNSX",
-                                                            "LAMHUR",
-                                                            "LAMHUREVO",
-                                                            "LEXUSRC",
-                                                            "MC720S",
-                                                            "MERCAMG",
-                                                            "MERCAMGEVO",
-                                                            "NISGTR",
-                                                            "PO991II"
+                                                              "AMRV8", "AR8EVO", "AR8EVOII", "BENTC", "BMWM4", "BMWM6"
+                                                            , "FER488", "FER488EVO", "HONNSX", "LAMHUR", "LAMHUREVO"
+                                                            , "LEXUSRC", "MC720S", "MERCAMG", "MERCAMGEVO", "NISGTR"
+                                                            , "PO991II"
                                                           };
 
     public static IEnumerable<CustomCar> GetCustomCars()
@@ -33,7 +20,7 @@ public class AccDataProvider
 
         return filePaths.Select(filePath =>
                                     JsonConvert.DeserializeObject<CustomCar>(
-                                        CleanJson(File.ReadAllText(filePath))))
+                                                                             CleanJson(File.ReadAllText(filePath))))
                         .ToList();
     }
 
@@ -43,16 +30,15 @@ public class AccDataProvider
 
         var result = new List<CustomSkin>();
 
-        foreach(var folderPath in folderPaths)
+        foreach (var folderPath in folderPaths)
         {
             var folderName = Path.GetRelativePath(AccPathProvider.CustomLiveriesFolderPath, folderPath);
-            if(MatchesNamingConvention(folderName))
+            if (MatchesNamingConvention(folderName))
             {
                 result.Add(new CustomSkin
-                {
-                    Name = folderName,
-                    FolderPath = folderPath
-                });
+                           {
+                               Name = folderName, FolderPath = folderPath
+                           });
             }
         }
 
@@ -62,17 +48,17 @@ public class AccDataProvider
     private static bool MatchesNamingConvention(string folderName)
     {
         var elements = folderName.Split("-", StringSplitOptions.RemoveEmptyEntries);
-        if(elements.Length != 4)
+        if (elements.Length != 4)
         {
             return false;
         }
 
-        if(!int.TryParse(elements[0], out var raceNumber))
+        if (!int.TryParse(elements[0], out var raceNumber))
         {
             return false;
         }
 
-        if(!validCarCodes.Contains(elements[2]))
+        if (!validCarCodes.Contains(elements[2]))
         {
             return false;
         }
@@ -89,7 +75,7 @@ public class AccDataProvider
             var json = CleanJson(fileContent);
             return JsonConvert.DeserializeObject<RaceSession>(json);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
@@ -100,5 +86,24 @@ public class AccDataProvider
     {
         return json.Replace("\0", "")
                    .Replace("\n", "");
+    }
+
+    public static IEnumerable<RaceSession> GetRecentSessions()
+    {
+        var result = new List<RaceSession>();
+
+        var sessionFilePaths = GetRecentSessionFilePaths();
+        foreach (var sessionFilePath in sessionFilePaths)
+        {
+            var raceSession = LoadRaceSession(sessionFilePath);
+            result.Add(raceSession);
+        }
+
+        return result;
+    }
+
+    public static IEnumerable<string> GetRecentSessionFilePaths()
+    {
+        return Directory.GetFiles(AccPathProvider.ResultFolderPath, "*.json");
     }
 }

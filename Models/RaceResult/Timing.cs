@@ -1,7 +1,10 @@
-﻿namespace Acc.Lib.Models.RaceResult;
+﻿using Acc.Lib.Shared;
+
+namespace Acc.Lib.Models.RaceResult;
 
 public class Timing
 {
+    
     public int LastLap { get; set; }
     public List<int> LastSplits { get; set; } = null!;
     public int BestLap { get; set; }
@@ -12,8 +15,17 @@ public class Timing
 
     public string BestLapTime =>
         TimeSpan.FromMilliseconds(this.BestLap)
-                .ToString("mm\\:ss\\.fff");
+                .ToString(Constants.TimingFormat);
+    public string BestSector1 =>
+        TimeSpan.FromMilliseconds(this.BestSplits[0])
+                .ToString(Constants.TimingFormat);
+    public string BestSector2 =>
+        TimeSpan.FromMilliseconds(this.BestSplits[1])
+                .ToString(Constants.TimingFormat);
+    public string BestSector3 =>
+        TimeSpan.FromMilliseconds(this.BestSplits[2])
+                .ToString(Constants.TimingFormat);
     public string AverageLapTime =>
         TimeSpan.FromMilliseconds((double) this.TotalTime / this.LapCount)
-                .ToString("mm\\:ss\\.fff");
+                .ToString(Constants.TimingFormat);
 }

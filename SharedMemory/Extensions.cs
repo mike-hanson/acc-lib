@@ -5,29 +5,29 @@ namespace Acc.Lib.SharedMemory;
 
 public static class Extensions
 {
-    public static string ToFriendlyString(this AccFlagType flagType)
+    public static string ToFriendlyName(this AccRtFlagType flagType)
     {
         return flagType switch
                {
-                   AccFlagType.NoFlag => "Green"
-                 , AccFlagType.BlueFlag => "Blue"
-                 , AccFlagType.YellowFlag => "Yellow"
-                 , AccFlagType.BlackFlag => "Black"
-                 , AccFlagType.WhiteFlag => "White"
-                 , AccFlagType.ChequeredFlag => "Chequered"
-                 , AccFlagType.PenaltyFlag => "Penalty"
-                 , AccFlagType.GreenFlag => "Green"
-                 , AccFlagType.BlackFlagWithOrangeCircle => "Orange"
+                   AccRtFlagType.NoFlag => "Green"
+                 , AccRtFlagType.BlueFlag => "Blue"
+                 , AccRtFlagType.YellowFlag => "Yellow"
+                 , AccRtFlagType.BlackFlag => "Black"
+                 , AccRtFlagType.WhiteFlag => "White"
+                 , AccRtFlagType.ChequeredFlag => "Chequered"
+                 , AccRtFlagType.PenaltyFlag => "Penalty"
+                 , AccRtFlagType.GreenFlag => "Green"
+                 , AccRtFlagType.BlackFlagWithOrangeCircle => "Orange"
                  , _ => flagType.ToString()
                };
     }
 
-    public static string ToFriendlyString(this AccSessionType sessionType)
+    public static string ToFriendlyName(this AccRtSessionType sessionType)
     {
         return sessionType switch
                {
-                   AccSessionType.HotlapSuperpole => "Hotlap Superpole"
-                 , AccSessionType.TimeAttack => "Time Attack", _ => sessionType.ToString()
+                   AccRtSessionType.HotlapSuperpole => "Hotlap Superpole"
+                 , AccRtSessionType.TimeAttack => "Time Attack", _ => sessionType.ToString()
                };
     }
 

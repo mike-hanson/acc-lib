@@ -143,13 +143,13 @@ public class PhysicsPage
 
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-    public Coordinate3d[] TyreContactPoint;
+    public AccRtVector3d[] TyreContactPoint;
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-    public Coordinate3d[] TyreContactNormal;
+    public AccRtVector3d[] TyreContactNormal;
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-    public Coordinate3d[] TyreContactHeading;
+    public AccRtVector3d[] TyreContactHeading;
 
     public float BrakeBias;
 

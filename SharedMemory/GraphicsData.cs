@@ -96,7 +96,7 @@ public class GraphicsData
 
     public int BestTimeMs {get; }
 
-    public Coordinate3d[] CarCoordinates {get; }
+    public AccRtVector3d[] CarCoordinates {get; }
 
     public int[] CarIds {get; }
 
@@ -128,7 +128,7 @@ public class GraphicsData
 
     public float ExhaustTemperature {get; }
 
-    public AccFlagType Flag {get; }
+    public AccRtFlagType Flag {get; }
 
     public int FlashingLights {get; }
 
@@ -200,17 +200,17 @@ public class GraphicsData
 
     public float PenaltyTime {get; }
 
-    public PenaltyShortcut PenaltyType {get; }
+    public AccRtPenaltyShortcut PenaltyType {get; }
 
     public int PlayerCarId {get; }
 
     public int Position {get; }
 
-    public AccRainIntensity RainIntensity {get; }
+    public AccRtRainIntensity RainIntensity {get; }
 
-    public AccRainIntensity RainIntensityIn10Min {get; }
+    public AccRtRainIntensity RainIntensityIn10Min {get; }
 
-    public AccRainIntensity RainIntensityIn30Min {get; }
+    public AccRtRainIntensity RainIntensityIn30Min {get; }
 
     public int RainLights {get; }
 
@@ -222,19 +222,19 @@ public class GraphicsData
 
     public float SessionTimeLeft {get; }
 
-    public AccSessionType SessionType {get; }
+    public AccRtSessionType SessionType {get; }
 
     public string Split {get; }
 
     public int SplitTimeMs {get; }
 
-    public AccStatus Status {get; }
+    public AccRtStatus Status {get; }
 
     public int StrategyTyreSet {get; }
 
     public float SurfaceGrip {get; }
 
-    public AccTrackGripStatus TrackGripStatus {get; }
+    public AccRtTrackGripStatus TrackGripStatus {get; }
 
     public string TrackStatus {get; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum AccStatus
+public enum AccRtStatus
 {
     AccOff
   , AccReplay

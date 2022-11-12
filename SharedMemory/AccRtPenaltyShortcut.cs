@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum PenaltyShortcut : int
+public enum AccRtPenaltyShortcut : int
 {
     None
   , DriveThroughCutting

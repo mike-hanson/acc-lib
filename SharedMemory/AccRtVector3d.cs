@@ -3,7 +3,7 @@
 namespace Acc.Lib.SharedMemory;
 
 [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode), Serializable]
-public struct Coordinate3d
+public struct AccRtVector3d
 {
     public float X;
     public float Y;

@@ -6,8 +6,8 @@ namespace Acc.Lib.SharedMemory;
 public class GraphicsPage
 {
     public int PacketId;
-    public AccStatus Status;
-    public AccSessionType SessionType;
+    public AccRtStatus Status;
+    public AccRtSessionType SessionType;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
     public string CurrentTime;
@@ -46,7 +46,7 @@ public class GraphicsPage
     public int ActiveCars;
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
-    public Coordinate3d[] CarCoordinates;
+    public AccRtVector3d[] CarCoordinates;
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
     public int[] CarIds;
@@ -54,9 +54,9 @@ public class GraphicsPage
     public int PlayerCarID;
 
     public float PenaltyTime;
-    public AccFlagType Flag;
+    public AccRtFlagType Flag;
 
-    public PenaltyShortcut PenaltyType;
+    public AccRtPenaltyShortcut PenaltyType;
 
     [MarshalAs(UnmanagedType.Bool)]
     public bool IdealLineOn;
@@ -153,10 +153,10 @@ public class GraphicsPage
     public float mfdTyrePressureRF;
     public float mfdTyrePressureLR;
     public float mfdTyrePressureRR;
-    public AccTrackGripStatus trackGripStatus;
-    public AccRainIntensity rainIntensity;
-    public AccRainIntensity rainIntensityIn10min;
-    public AccRainIntensity rainIntensityIn30min;
+    public AccRtTrackGripStatus trackGripStatus;
+    public AccRtRainIntensity rainIntensity;
+    public AccRtRainIntensity rainIntensityIn10min;
+    public AccRtRainIntensity rainIntensityIn30min;
     public int currentTyreSet;
     public int strategyTyreSet;
     public int gapAheadMillis;

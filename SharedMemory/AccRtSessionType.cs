@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum AccSessionType
+public enum AccRtSessionType
 {
     Unknown = -1
   , Practice = 0

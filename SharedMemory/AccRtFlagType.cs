@@ -1,6 +1,6 @@
 ﻿namespace Acc.Lib.SharedMemory;
 
-public enum AccFlagType : int
+public enum AccRtFlagType : int
 {
     NoFlag
   , BlueFlag

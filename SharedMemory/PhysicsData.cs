@@ -147,11 +147,11 @@ public class PhysicsData
 
     public float TurboBoost { get; set; }
 
-    public Coordinate3d[] TyreContactHeading { get; set; }
+    public AccRtVector3d[] TyreContactHeading { get; set; }
 
-    public Coordinate3d[] TyreContactNormal { get; set; }
+    public AccRtVector3d[] TyreContactNormal { get; set; }
 
-    public Coordinate3d[] TyreContactPoint { get; set; }
+    public AccRtVector3d[] TyreContactPoint { get; set; }
 
     public float[] TyreCoreTemperature { get; set; }
 

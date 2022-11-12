@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Acc.Lib.Broadcasting.Messages;
+﻿namespace Acc.Lib.Shared;
 
 public enum SessionPhase
 {
