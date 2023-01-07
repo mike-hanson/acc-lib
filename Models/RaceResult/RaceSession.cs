@@ -20,10 +20,10 @@ public class RaceSession
     public SessionDef SessionDef { get; set; } = null!;
     public SnapShot SnapShot { get; set; } = null!;
 
-    public CurrentDriver GetPlayer()
+    public Driver GetPlayer()
     {
         return this.SnapShot.GetPlayerLeaderBoardLine()
-                   .CurrentDriver;
+                   .Car.Drivers[0];
     }
 
     public LeaderBoardLine GetPlayerLeaderBoardLine()
@@ -35,5 +35,11 @@ public class RaceSession
     {
         var playerLeaderBoardLine = this.GetPlayerLeaderBoardLine();
         return this.SnapShot.LeaderBoardLines.IndexOf(playerLeaderBoardLine) + 1;
+    }
+
+    public Driver GetLapDriver(int carId, int driverId)
+    {
+        var carLeaderBoardLine = this.SnapShot.GetLeaderBoardLineByCarId(carId);
+        return carLeaderBoardLine.Car.GetDriverByIndex(driverId);
     }
 }

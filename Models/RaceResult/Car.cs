@@ -12,4 +12,9 @@ public class Car
     public int CarGuid { get; set; }
     public int TeamGuid { get; set; }
     public List<Driver> Drivers { get; set; } = null!;
+
+    public Driver GetDriverByIndex(int index)
+    {
+        return this.Drivers[index];
+    }
 }

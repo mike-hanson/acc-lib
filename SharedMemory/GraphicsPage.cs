@@ -80,7 +80,7 @@ public class GraphicsPage
     public int TCCut;
     public int EngineMap;
     public int ABS;
-    public float FuelXLap;
+    public float AverageFuelPerLap;
     public int RainLights;
     public int FlashingLights;
     public int LightsStage;
@@ -114,13 +114,13 @@ public class GraphicsPage
     public string TrackStatus;
 
     public int MandatoryPitStopsLeft;
-    float ClockTimeDaySeconds;
+    float ClockTimeOfDaySeconds;
 
     [MarshalAs(UnmanagedType.Bool)]
-    public bool BlinkerLeftOn;
+    public bool IndicatorLeftOn;
 
     [MarshalAs(UnmanagedType.Bool)]
-    public bool BlinkerRightOn;
+    public bool IndicatorRightOn;
 
     [MarshalAs(UnmanagedType.Bool)]
     public bool GlobalYellow;

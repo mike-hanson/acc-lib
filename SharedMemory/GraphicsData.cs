@@ -44,7 +44,7 @@ public class GraphicsData
         this.TractionControlCut = graphicsPage.TCCut;
         this.EngineMap = graphicsPage.EngineMap;
         this.Abs = graphicsPage.ABS;
-        this.FuelPerLap = graphicsPage.FuelXLap;
+        this.FuelPerLap = graphicsPage.AverageFuelPerLap;
         this.RainLights = graphicsPage.RainLights;
         this.FlashingLights = graphicsPage.FlashingLights;
         this.LightsStage = graphicsPage.LightsStage;
@@ -65,8 +65,8 @@ public class GraphicsData
         this.FuelEstimatedLaps = graphicsPage.FuelEstimatedLaps;
         this.TrackStatus = graphicsPage.TrackStatus;
         this.MandatoryPitStopsLeft = graphicsPage.MandatoryPitStopsLeft;
-        this.IsLeftIndicatorOn = graphicsPage.BlinkerLeftOn;
-        this.IsRightIndicatorOn = graphicsPage.BlinkerRightOn;
+        this.IsLeftIndicatorOn = graphicsPage.IndicatorLeftOn;
+        this.IsRightIndicatorOn = graphicsPage.IndicatorRightOn;
         this.GlobalYellow = graphicsPage.GlobalYellow;
         this.GlobalYellowSector1 = graphicsPage.GlobalYellowSector1;
         this.GlobalYellowSector2 = graphicsPage.GlobalYellowSector2;

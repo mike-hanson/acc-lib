@@ -5,12 +5,12 @@ public class StaticData
     public StaticData(StaticDataPage staticDataPage)
     {
         this.SharedMemoryVersion = staticDataPage.SharedMemoryVersion;
-        this.AccVersion = staticDataPage.AssettoCorsaVersion;
+        this.AccVersion = staticDataPage.AccVersion;
         this.NumberOfSessions = staticDataPage.NumberOfSessions;
         this.NumberOfCars = staticDataPage.NumberOfCars;
         this.CarModel = staticDataPage.CarModel;
-        this.Track = staticDataPage.Track;
-        this.PlayerName = staticDataPage.PlayerName;
+        this.Track = staticDataPage.TrackName;
+        this.PlayerName = staticDataPage.PlayerFirstName;
         this.PlayerSurname = staticDataPage.PlayerSurname;
         this.PlayerNickname = staticDataPage.PlayerNickname;
         this.SectorCount = staticDataPage.SectorCount;

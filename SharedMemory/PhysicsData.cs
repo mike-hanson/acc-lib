@@ -11,7 +11,7 @@ public class PhysicsData
         this.Brake = physicsPage.Brake;
         this.Fuel = physicsPage.Fuel;
         this.Gear = physicsPage.Gear;
-        this.Rpm = physicsPage.Rpms;
+        this.Rpm = physicsPage.Rpm;
         this.SteerAngle = physicsPage.SteerAngle;
         this.SpeedKmh = physicsPage.SpeedKmh;
         this.Velocity = physicsPage.Velocity;

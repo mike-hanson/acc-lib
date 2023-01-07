@@ -10,7 +10,7 @@ public class PhysicsPage
     public float Brake;
     public float Fuel;
     public int Gear;
-    public int Rpms;
+    public int Rpm;
     public float SteerAngle;
     public float SpeedKmh;
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
@@ -183,7 +183,7 @@ public class PhysicsPage
     public float[] SlipAngle;
 
     [Obsolete]
-    public int TcinAction;
+    public int TcInAction;
     [Obsolete]
     public int AbsInAction;
 

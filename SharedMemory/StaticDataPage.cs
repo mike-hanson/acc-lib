@@ -9,7 +9,7 @@ public class StaticDataPage
     public string SharedMemoryVersion;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
-    public string AssettoCorsaVersion;
+    public string AccVersion;
 
     public int NumberOfSessions;
     public int NumberOfCars;
@@ -18,10 +18,10 @@ public class StaticDataPage
     public string CarModel;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
-    public string Track;
+    public string TrackName;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
-    public string PlayerName;
+    public string PlayerFirstName;
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
     public string PlayerSurname;
@@ -31,7 +31,6 @@ public class StaticDataPage
 
     public int SectorCount;
 
-    // car static info
     [Obsolete]
     public float MaxTorque;
     [Obsolete]
@@ -47,6 +46,7 @@ public class StaticDataPage
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
     public float[] TyreRadius;
 
+    [Obsolete]
     public float MaxTurboBoost;
 
     [Obsolete]

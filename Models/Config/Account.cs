@@ -4,6 +4,7 @@ namespace Acc.Lib.Models.Config;
 
 public class Account
 {
+    public string FullName => $"{this.FirstName} {this.LastName}";
     public string Country { get; set; }
     public string DiscordUserName { get; set; }
     public string Email { get; set; }
