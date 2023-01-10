@@ -2,11 +2,21 @@
 using Acc.Lib.Models.Config;
 using Acc.Lib.Models.Config.SeasonEntity;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Acc.Lib;
 
 public class AccLocalConfigProvider
 {
+    private static readonly JsonSerializerSettings jsonSerializerSettings = new()
+        {
+            ContractResolver = new DefaultContractResolver
+                               {
+                                   NamingStrategy = new CamelCaseNamingStrategy()
+                               },
+            Formatting = Formatting.Indented
+        };
+
     public static Account GetAccount()
     {
         return DeserialiseConfigEntity<Account>(AccPathProvider.AccountFilePath);
@@ -25,7 +35,8 @@ public class AccLocalConfigProvider
 
     public static void SaveBroadcastingSettings(BroadcastingSettings settings)
     {
-        var json = JsonConvert.SerializeObject(settings);
+        var json =
+            JsonConvert.SerializeObject(settings, Formatting.Indented, jsonSerializerSettings);
         File.WriteAllText(AccPathProvider.BroadcastingSettingsFilePath, json);
     }
 
