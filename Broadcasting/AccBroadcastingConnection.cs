@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reactive.Disposables;
 using Acc.Lib.Broadcasting.Messages;
@@ -11,8 +12,8 @@ public class AccBroadcastingConnection
 {
     private readonly AccBroadcastingMessageHandler broadcastingMessageHandler;
     private readonly CompositeDisposable subscriptionSink = new();
-
-    private IPEndPoint ipEndPoint;
+    private readonly IPEndPoint ipEndPoint;
+    
     private bool isConnected;
     private bool isDisposed;
     private bool isStopped;
@@ -58,24 +59,37 @@ public class AccBroadcastingConnection
         this.broadcastingMessageHandler.TrackDataUpdates;
     public int UpdateInterval { get; }
 
-    public Task Connect()
+    public async void Connect()
     {
         this.subscriptionSink.Add(this.broadcastingMessageHandler.ConnectionStateChanges
                                       .Subscribe(this.OnNextConnectionStateChange));
         this.udpClient = new UdpClient();
         this.udpClient.Client.ReceiveTimeout = 5000;
+        this.udpClient.Connect(this.ipEndPoint);
 
         try
         {
-            this.WaitForConnection();
+            await this.WaitForPortToBeAvailable();
             this.listenerTask = this.HandleMessages();
-            return this.listenerTask;
         }
         catch(Exception exception)
         {
             this.LogMessage(exception.Message);
             Debug.WriteLine(exception.Message);
             throw;
+        }
+    }
+
+    private async Task WaitForPortToBeAvailable()
+    {
+        this.LogMessage("Waiting for ACC session to start...");
+        var isPortAvailable = false;
+        while(!isPortAvailable)
+        {
+            isPortAvailable = IPGlobalProperties.GetIPGlobalProperties()
+                                            .GetActiveUdpListeners()
+                                            .Any(p => p.Port == this.Port);
+            await Task.Delay(TimeSpan.FromSeconds(10));
         }
     }
 
@@ -119,10 +133,15 @@ public class AccBroadcastingConnection
 
     private async Task HandleMessages()
     {
+        this.LogMessage("Connecting to ACC...");
         this.broadcastingMessageHandler.RequestConnection(this.DisplayName,
                                                           this.ConnectionPassword,
                                                           this.UpdateInterval,
                                                           this.CommandPassword);
+
+        this.isConnected = true;
+        this.LogMessage("Connected to ACC Session...");
+
         while(!this.isStopped && this.isConnected)
         {
             try
@@ -167,35 +186,5 @@ public class AccBroadcastingConnection
         this.udpClient?.Close();
         this.udpClient?.Dispose();
         this.udpClient = null;
-    }
-
-    private async void WaitForConnection()
-    {
-        this.udpClient.Connect(this.ipEndPoint);
-
-        while(!this.isStopped && !this.isConnected)
-        {
-            try
-            {
-                this.LogMessage("Attempting connection to ACC...");
-                var tmp = new byte[1];
-                this.udpClient.Client.Send(tmp);
-                this.udpClient.Receive(ref this.ipEndPoint);
-                this.isConnected = this.udpClient.Client.Connected;
-
-                await Task.Delay(TimeSpan.FromSeconds(3));
-            }
-            catch(SocketException socketException)
-            {
-                Debug.WriteLine($"SocketException {socketException.ErrorCode} {socketException.Message}");
-                this.LogMessage(socketException.ErrorCode == 10054
-                                    ? $"ACC not found at {this.ConnectionIdentifier}, retrying..."
-                                    : $"A connection to {this.ConnectionIdentifier} was made but timed out.");
-            }
-            catch(Exception exception)
-            {
-                this.LogMessage($"Unexpected error: {exception.Message}");
-            }
-        }
     }
 }
