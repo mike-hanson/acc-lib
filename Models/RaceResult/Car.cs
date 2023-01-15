@@ -9,8 +9,8 @@ public class Car
     public string CarGroup { get; set; } = null!;
     public string TeamName { get; set; } = null!;
     public int Nationality { get; set; }
-    public int CarGuid { get; set; }
-    public int TeamGuid { get; set; }
+    public long CarGuid { get; set; }
+    public long TeamGuid { get; set; }
     public List<Driver> Drivers { get; set; } = null!;
 
     public Driver GetDriverByIndex(int index)

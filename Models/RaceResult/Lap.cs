@@ -21,8 +21,8 @@ public class Lap
     public int DriverId { get; set; }
     public int Flags { get; set; }
     public double Fuel { get; set; }
-    public int LapTime { get; set; }
-    public List<int> Splits { get; set; }
+    public long LapTime { get; set; }
+    public List<long> Splits { get; set; }
     public double TimestampMS { get; set; }
 
     public string GetLapTime()

@@ -28,8 +28,7 @@ public class CarInfo
 
   public override string ToString()
   {
-    return
-      $"Race Number: {this.RaceNumber}, Driver: {this.Drivers[this.CurrentDriverIndex].ShortName} , Team: {this.TeamName}";
+      return !this.Drivers.Any()? $"Race Number: {this.RaceNumber}, Team: {this.TeamName}": $"Race Number: {this.RaceNumber}, Driver: {this.Drivers[this.CurrentDriverIndex].ShortName} , Team: {this.TeamName}";
   }
 
   internal void AddDriver(DriverInfo driverInfo)

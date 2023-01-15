@@ -63,6 +63,8 @@ public class AccBroadcastingConnection
     {
         this.subscriptionSink.Add(this.broadcastingMessageHandler.ConnectionStateChanges
                                       .Subscribe(this.OnNextConnectionStateChange));
+        this.subscriptionSink.Add(this.broadcastingMessageHandler.DispatchedMessages.Subscribe(this.OnNextDispatchedMessage));
+
         this.udpClient = new UdpClient();
         this.udpClient.Client.ReceiveTimeout = 5000;
         this.udpClient.Connect(this.ipEndPoint);
@@ -78,6 +80,11 @@ public class AccBroadcastingConnection
             Debug.WriteLine(exception.Message);
             throw;
         }
+    }
+
+    private void OnNextDispatchedMessage(byte[] message)
+    {
+        this.udpClient?.Send(message);
     }
 
     private async Task WaitForPortToBeAvailable()

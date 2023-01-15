@@ -223,7 +223,7 @@ public class AccBroadcastingMessageHandler
 
             this.lastEntryListRequest = DateTime.Now;
             this.RequestEntryList();
-            Debug.WriteLine($"CarUpdate {update.CarIndex}|{update.DriverIndex} not known, will ask for new EntryList");
+            Debug.WriteLine($"Car {update.CarIndex}|{update.DriverIndex} not known, requesting new Entry List");
         }
         else
         {

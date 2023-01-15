@@ -4,14 +4,13 @@ namespace Acc.Lib.Models.RaceResult;
 
 public class Timing
 {
-    
-    public int LastLap { get; set; }
-    public List<int> LastSplits { get; set; } = null!;
-    public int BestLap { get; set; }
+    public long LastLap { get; set; }
+    public List<long> LastSplits { get; set; } = null!;
+    public long BestLap { get; set; }
     public List<int> BestSplits { get; set; } = null!;
-    public int TotalTime { get; set; }
+    public long TotalTime { get; set; }
     public int LapCount { get; set; }
-    public int LastSplitId { get; set; }
+    public long LastSplitId { get; set; }
 
     public string BestLapTime =>
         TimeSpan.FromMilliseconds(this.BestLap)

@@ -2,8 +2,8 @@
 
 public class SnapShot
 {
-    public int Bestlap { get; set; }
-    public List<int> BestSplits { get; set; } = null!;
+    public long Bestlap { get; set; }
+    public List<long> BestSplits { get; set; } = null!;
     public int IsWetSession { get; set; }
     public List<LeaderBoardLine> LeaderBoardLines { get; set; } = null!;
     public int Type { get; set; }
