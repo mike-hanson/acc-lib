@@ -18,7 +18,7 @@ public class CarInfo
   public int RaceNumber { get; internal set; }
   public string TeamName { get; internal set; }
 
-  public string GetCurrentDisplayName()
+  public string GetCurrentDriverDisplayName()
   {
     return this.CurrentDriverIndex >= this.Drivers.Count
              ? "nobody(?)"

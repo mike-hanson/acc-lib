@@ -25,6 +25,6 @@ public class RealtimeCarUpdate
 
     public override string ToString()
     {
-        return $"Real Time Car Update: Car Index: {this.CarIndex}, Driver Index: {this.DriverIndex}, Lap Info: {this.CurrentLap}";
+        return $"Real Time Car Update: Car Index: {this.CarIndex}, Driver Index: {this.DriverIndex}, Current Lap: {this.CurrentLap}, Last Lap: {this.LastLap}";
     }
 }

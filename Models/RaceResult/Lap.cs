@@ -4,30 +4,27 @@ namespace Acc.Lib.Models.RaceResult;
 
 public class Lap
 {
-    public string Sector1Time =>
-        TimeSpan.FromMilliseconds(this.Splits[0])
-                .ToString(Constants.TimingFormat);
-    public string Sector2Time =>
-        TimeSpan.FromMilliseconds(this.Splits[1])
-                .ToString(Constants.TimingFormat);
-    public string Sector3Time =>
-        TimeSpan.FromMilliseconds(this.Splits[2])
-                .ToString(Constants.TimingFormat);
+	public string Sector1Time =>
+		this.Splits[0]
+		    .ToTimingString();
+	public string Sector2Time =>
+		this.Splits[1]
+		    .ToTimingString();
+	public string Sector3Time =>
+		this.Splits[2]
+		    .ToTimingString();
+	public string Timestamp => this.TimestampMS.ToTimingString();
+	public int CarId { get; set; }
+	public int DriverId { get; set; }
+	public int Flags { get; set; }
+	public double Fuel { get; set; }
+	public long LapTime { get; set; }
+	public List<long> Splits { get; set; }
+	public double TimestampMS { get; set; }
 
-    public string Timestamp =>
-        TimeSpan.FromMilliseconds(this.TimestampMS)
-                .ToString(Constants.TimingFormat);
-    public int CarId { get; set; }
-    public int DriverId { get; set; }
-    public int Flags { get; set; }
-    public double Fuel { get; set; }
-    public long LapTime { get; set; }
-    public List<long> Splits { get; set; }
-    public double TimestampMS { get; set; }
-
-    public string GetLapTime()
-    {
-        return TimeSpan.FromMilliseconds(this.LapTime)
-                       .ToString(Constants.TimingFormat);
-    }
+	public string GetLapTime()
+	{
+		return this.LapTime.ValidatedValue()
+		           .ToTimingString();
+	}
 }

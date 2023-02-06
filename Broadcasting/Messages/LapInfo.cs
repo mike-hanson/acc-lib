@@ -9,10 +9,10 @@ public class LapInfo
         this.LapTimeMs = binaryReader.ReadInt32();
         this.CarIndex = binaryReader.ReadUInt16();
         this.DriverIndex = binaryReader.ReadUInt16();
-        var splitCount = binaryReader.ReadByte();
-        for(var i = 0; i < splitCount; i++)
+        this.SplitCount = binaryReader.ReadByte();
+        for(var i = 0; i < this.SplitCount; i++)
         {
-            this.Splits.Add(binaryReader.ReadInt32());
+            this.Splits[i] = binaryReader.ReadInt32();
         }
 
         this.IsInvalid = binaryReader.ReadByte() > 0;
@@ -34,30 +34,25 @@ public class LapInfo
             this.LapType = LapType.Regular;
         }
 
-        // Now it's possible that this is "no" lap that doesn't even include a 
-        // first split, we can detect this by comparing with int32.Max
-        while(this.Splits.Count < 3)
-        {
-            this.Splits.Add(null);
-        }
-
+        
         // "null" entries are Int32.Max, in the C# world we can replace this to null
         for(var i = 0; i < this.Splits.Count; i++)
         {
             if(this.Splits[i] == int.MaxValue)
             {
-                this.Splits[i] = null;
+                this.Splits[i] = 0;
             }
         }
 
         if(this.LapTimeMs == int.MaxValue)
         {
-            this.LapTimeMs = null;
+            this.LapTimeMs = 0;
         }
     }
 
-    public int? LapTimeMs { get; set; }
-    public List<int?> Splits { get; } = new();
+    public byte SplitCount { get; set; }
+    public int LapTimeMs { get; set; }
+    public List<int> Splits { get; } = new() {0, 0, 0};
     public ushort CarIndex { get; internal set; }
     public ushort DriverIndex { get; internal set; }
     public bool IsInvalid { get; internal set; }
@@ -66,6 +61,6 @@ public class LapInfo
 
     public override string ToString()
     {
-        return $"{this.LapTimeMs,5}|{string.Join("|", this.Splits)}";
+        return $"{this.LapTimeMs,5}|{string.Join("|", this.Splits)} Split Count: {this.SplitCount} Invalid: {this.IsInvalid}";
     }
 }

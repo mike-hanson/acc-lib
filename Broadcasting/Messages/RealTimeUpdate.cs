@@ -30,9 +30,12 @@ public class RealtimeUpdate
     public byte TrackTemp { get; internal set; }
     public float Wetness { get; internal set; }
 
+    public TimeSpan ActualRemainingTime =>
+	    this.RemainingTime.TotalMilliseconds > 0? this.RemainingTime: this.SessionRemainingTime;
+
     public override string ToString()
     {
         return
-            $"Real Time Update: Session Type: {this.SessionType} Phase: {this.Phase}, Remaining Minutes: {this.SessionRemainingTime}";
+            $"Real Time Update: Session Type: {this.SessionType} Phase: {this.Phase}, Remaining Time: {this.ActualRemainingTime}";
     }
 }
