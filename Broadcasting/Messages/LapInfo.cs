@@ -1,4 +1,5 @@
 ﻿using System;
+using Acc.Lib.Shared;
 
 namespace Acc.Lib.Broadcasting.Messages;
 
@@ -61,6 +62,6 @@ public class LapInfo
 
     public override string ToString()
     {
-        return $"{this.LapTimeMs,5}|{string.Join("|", this.Splits)} Split Count: {this.SplitCount} Invalid: {this.IsInvalid}";
+        return $"Lap Time: {this.LapTimeMs.ToTimingString()} Splits: [{this.Splits[0].ToTimingString()},{this.Splits[1].ToTimingString()},{this.Splits[2].ToTimingString()}] Invalid: {this.IsInvalid}";
     }
 }

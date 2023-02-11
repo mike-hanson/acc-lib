@@ -36,6 +36,6 @@ public class RealtimeUpdate
     public override string ToString()
     {
         return
-            $"Real Time Update: Session Type: {this.SessionType} Phase: {this.Phase}, Remaining Time: {this.ActualRemainingTime}";
+            $"Real Time Update: Session Type: {this.SessionType} Phase: {this.Phase}, Remaining Time: {this.ActualRemainingTime}, Session Time: {this.SessionTime}";
     }
 }
