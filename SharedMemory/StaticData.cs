@@ -67,7 +67,19 @@ public class StaticData
 
     public int PitWindowStart { get; }
 
-    public string PlayerDisplayName => $"{this.PlayerName[..1]}. {this.PlayerSurname}";
+    public string PlayerDisplayName() {
+        
+        if(!string.IsNullOrEmpty(this.PlayerName)) {
+            return $"{this.PlayerName[..1]}. {this.PlayerSurname}";
+        }
+
+        if(!string.IsNullOrEmpty(this.PlayerNickname))
+        {
+            return this.PlayerNickname;
+        }
+
+        return "Not Available";
+    }
 
     public string PlayerName { get; }
 
@@ -86,6 +98,6 @@ public class StaticData
     public override string ToString()
     {
         return
-            $"Static Data Update: ACC Version: {this.AccVersion}, Shared Memory Version: {this.SharedMemoryVersion}, Track: {this.Track}, Car Model: {this.CarModel}, Driver: {this.PlayerDisplayName}";
+            $"Static Data Update: ACC Version: {this.AccVersion}, Shared Memory Version: {this.SharedMemoryVersion}, Track: {this.Track}, Car Model: {this.CarModel}, Driver: {this.PlayerDisplayName()}";
     }
 }
