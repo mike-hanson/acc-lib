@@ -88,167 +88,173 @@ public class GraphicsData
         this.GapBehindMs = graphicsPage.gapBehindMillis;
     }
 
-    public int Abs {get; }
+    public int Abs { get; }
 
-    public int ActiveCars {get; }
+    public int ActiveCars { get; }
 
-    public string BestTime {get; }
+    public string BestTime { get; }
 
-    public int BestTimeMs {get; }
+    public int BestTimeMs { get; }
 
-    public AccRtVector3d[] CarCoordinates {get; }
+    public AccRtVector3d[] CarCoordinates { get; }
 
-    public int[] CarIds {get; }
+    public int[] CarIds { get; }
 
-    public int CompletedLaps {get; }
+    public int CompletedLaps { get; }
 
-    public int CurrentSectorIndex {get; }
+    public int CurrentSectorIndex { get; }
 
-    public string CurrentTime {get; }
+    public string CurrentTime { get; }
 
-    public int CurrentTimeMs {get; }
+    public int CurrentTimeMs { get; }
 
-    public int CurrentTyreSet {get; }
+    public int CurrentTyreSet { get; }
 
-    public string DeltaLapTime {get; }
+    public string DeltaLapTime { get; }
 
-    public int DeltaLapTimeMs {get; }
+    public int DeltaLapTimeMs { get; }
 
-    public float DistanceTravelled {get; }
+    public float DistanceTravelled { get; }
 
-    public int DriverStintTimeLeft {get; }
+    public int DriverStintTimeLeft { get; }
 
-    public int DriverStintTotalTimeLeft {get; }
+    public int DriverStintTotalTimeLeft { get; }
 
-    public int EngineMap {get; }
+    public int EngineMap { get; }
 
-    public string EstimatedLapTime {get; }
+    public string EstimatedLapTime { get; }
 
-    public int EstimatedLapTimeMs {get; }
+    public int EstimatedLapTimeMs { get; }
 
-    public float ExhaustTemperature {get; }
+    public float ExhaustTemperature { get; }
 
-    public AccRtFlagType Flag {get; }
+    public AccRtFlagType Flag { get; }
 
-    public int FlashingLights {get; }
+    public int FlashingLights { get; }
 
-    public float FuelEstimatedLaps {get; }
+    public float FuelEstimatedLaps { get; }
 
-    public float FuelPerLap {get; }
+    public float FuelPerLap { get; }
 
-    public int GapAheadMs {get; }
+    public int GapAheadMs { get; }
 
-    public int GapBehindMs {get; }
+    public int GapBehindMs { get; }
 
-    public bool GlobalWhite {get; }
+    public bool GlobalWhite { get; }
 
-    public bool GlobalYellow {get; }
+    public bool GlobalYellow { get; }
 
-    public bool GlobalYellowSector1 {get; }
+    public bool GlobalYellowSector1 { get; }
 
-    public bool GlobalYellowSector2 {get; }
+    public bool GlobalYellowSector2 { get; }
 
-    public bool GlobalYellowSector3 {get; }
+    public bool GlobalYellowSector3 { get; }
 
-    public bool IdealLineOn {get; }
+    public bool IdealLineOn { get; }
 
-    public bool IsDeltaPositive {get; }
+    public bool IsDeltaPositive { get; }
 
-    public bool IsInPitLane {get; }
+    public bool IsInPitLane { get; }
 
-    public bool IsInPits {get; }
+    public bool IsInPits { get; }
 
-    public bool IsLeftIndicatorOn {get; }
+    public bool IsLeftIndicatorOn { get; }
 
-    public bool IsRightIndicatorOn {get; }
+    public bool IsRightIndicatorOn { get; }
 
-    public bool IsSetupMenuVisible {get; }
+    public bool IsSetupMenuVisible { get; }
 
-    public bool IsValidLap {get; }
+    public bool IsValidLap { get; }
 
-    public int LastSectorTime {get; }
+    public int LastSectorTime { get; }
 
-    public string LastTime {get; }
+    public string LastTime { get; }
 
-    public int LastTimeMs {get; }
+    public int LastTimeMs { get; }
 
-    public int LightsStage {get; }
+    public int LightsStage { get; }
 
-    public int MainDisplayIndex {get; }
+    public int MainDisplayIndex { get; }
 
-    public bool MandatoryPitDone {get; }
+    public bool MandatoryPitDone { get; }
 
-    public int MandatoryPitStopsLeft {get; }
+    public int MandatoryPitStopsLeft { get; }
 
-    public float MfdFuelToAdd {get; }
+    public float MfdFuelToAdd { get; }
 
-    public float MfdTyrePressureLf {get; }
+    public float MfdTyrePressureLf { get; }
 
-    public float MfdTyrePressureLr {get; }
+    public float MfdTyrePressureLr { get; }
 
-    public float MfdTyrePressureRf {get; }
+    public float MfdTyrePressureRf { get; }
 
-    public float MfdTyrePressureRr {get; }
+    public float MfdTyrePressureRr { get; }
 
-    public int MfdTyreSet {get; }
+    public int MfdTyreSet { get; }
 
-    public float NormalizedCarPosition {get; }
+    public float NormalizedCarPosition { get; }
 
-    public int NumberOfLaps {get; }
+    public int NumberOfLaps { get; }
 
-    public int PacketId {get; }
+    public int PacketId { get; }
 
-    public float PenaltyTime {get; }
+    public float PenaltyTime { get; }
 
-    public AccRtPenaltyShortcut PenaltyType {get; }
+    public AccRtPenaltyShortcut PenaltyType { get; }
 
-    public int PlayerCarId {get; }
+    public int PlayerCarId { get; }
 
-    public int Position {get; }
+    public int Position { get; }
 
-    public AccRtRainIntensity RainIntensity {get; }
+    public AccRtRainIntensity RainIntensity { get; }
 
-    public AccRtRainIntensity RainIntensityIn10Min {get; }
+    public AccRtRainIntensity RainIntensityIn10Min { get; }
 
-    public AccRtRainIntensity RainIntensityIn30Min {get; }
+    public AccRtRainIntensity RainIntensityIn30Min { get; }
 
-    public int RainLights {get; }
+    public int RainLights { get; }
 
-    public int RainTyres {get; }
+    public int RainTyres { get; }
 
-    public int SecondaryDisplayIndex {get; }
+    public int SecondaryDisplayIndex { get; }
 
-    public int SessionIndex {get; }
+    public int SessionIndex { get; }
 
-    public float SessionTimeLeft {get; }
+    public float SessionTimeLeft { get; }
 
-    public AccRtSessionType SessionType {get; }
+    public AccRtSessionType SessionType { get; }
 
-    public string Split {get; }
+    public string Split { get; }
 
-    public int SplitTimeMs {get; }
+    public int SplitTimeMs { get; }
 
-    public AccRtStatus Status {get; }
+    public AccRtStatus Status { get; }
 
-    public int StrategyTyreSet {get; }
+    public int StrategyTyreSet { get; }
 
-    public float SurfaceGrip {get; }
+    public float SurfaceGrip { get; }
 
-    public AccRtTrackGripStatus TrackGripStatus {get; }
+    public AccRtTrackGripStatus TrackGripStatus { get; }
 
-    public string TrackStatus {get; }
+    public string TrackStatus { get; }
 
-    public int TractionControl {get; }
+    public int TractionControl { get; }
 
-    public int TractionControlCut {get; }
+    public int TractionControlCut { get; }
 
-    public string TyreCompound {get; }
+    public string TyreCompound { get; }
 
-    public float UsedFuelSinceRefuel {get; }
+    public float UsedFuelSinceRefuel { get; }
 
-    public float WindDirection {get; }
+    public float WindDirection { get; }
 
-    public float WindSpeed {get; }
+    public float WindSpeed { get; }
 
-    public int WiperLevel {get; }
+    public int WiperLevel { get; }
+
+    public override string ToString()
+    {
+        return
+            $"Graphics Data: Current Time: {this.LastTime}, Current Sector Index: {this.CurrentSectorIndex}, Split: {this.Split}, In Pit lane: {this.IsInPitLane}, In Pits: {this.IsInPits}";
+    }
 }

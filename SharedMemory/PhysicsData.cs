@@ -166,4 +166,10 @@ public class PhysicsData
     public float[] WheelPressure { get; set; }
 
     public float[] WheelSlip { get; set; }
+
+    public override string ToString()
+    {
+        return
+            $"Physics Data Update: Accelerator: {this.Accelerator}, Brake: {this.Brake}, Fuel: {this.Fuel}, Gear: {this.Gear}, RPM: {this.Rpm}, Steering Angle: {this.SteerAngle}, Speed KMH: {this.SpeedKmh}";
+    }
 }

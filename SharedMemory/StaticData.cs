@@ -16,7 +16,6 @@ public class StaticData
         this.SectorCount = staticDataPage.SectorCount;
         this.MaxRpm = staticDataPage.MaxRpm;
         this.MaxFuel = staticDataPage.MaxFuel;
-        this.MaxTurboBoost = staticDataPage.MaxTurboBoost;
         this.PenaltiesEnabled = staticDataPage.PenaltiesEnabled;
         this.AidFuelRate = staticDataPage.AidFuelRate;
         this.AidTyreRate = staticDataPage.AidTireRate;
@@ -58,8 +57,6 @@ public class StaticData
 
     public int MaxRpm { get; }
 
-    public float MaxTurboBoost { get; }
-
     public int NumberOfCars { get; }
 
     public int NumberOfSessions { get; }
@@ -69,6 +66,8 @@ public class StaticData
     public int PitWindowEnd { get; }
 
     public int PitWindowStart { get; }
+
+    public string PlayerDisplayName => $"{this.PlayerName[..1]}. {this.PlayerSurname}";
 
     public string PlayerName { get; }
 
@@ -83,4 +82,10 @@ public class StaticData
     public string Track { get; }
 
     public string WetTyresName { get; }
+
+    public override string ToString()
+    {
+        return
+            $"Static Data Update: ACC Version: {this.AccVersion}, Shared Memory Version: {this.SharedMemoryVersion}, Track: {this.Track}, Car Model: {this.CarModel}, Driver: {this.PlayerDisplayName}";
+    }
 }
