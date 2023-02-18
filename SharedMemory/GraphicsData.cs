@@ -255,6 +255,6 @@ public class GraphicsData
     public override string ToString()
     {
         return
-            $"Graphics Data: Current Time: {this.LastTime}, Current Sector Index: {this.CurrentSectorIndex}, Split: {this.Split}, In Pit lane: {this.IsInPitLane}, In Pits: {this.IsInPits}";
+            $"Graphics Data: Packet ID: {this.PacketId}, Current Time: {this.LastTime}, Current Sector Index: {this.CurrentSectorIndex}, Split: {this.Split}, In Pit lane: {this.IsInPitLane}, In Pits: {this.IsInPits}";
     }
 }
