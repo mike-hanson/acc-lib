@@ -6,6 +6,7 @@ public class PhysicsData
 {
     public PhysicsData(PhysicsPage physicsPage)
     {
+        this.TimeStamp = DateTime.UtcNow;
         this.PacketId = physicsPage.PacketId;
         this.Accelerator = physicsPage.Gas;
         this.Brake = physicsPage.Brake;
@@ -60,6 +61,8 @@ public class PhysicsData
         this.GearVibrations = physicsPage.Gvibrations;
         this.AbsVibrations = physicsPage.AbsVibrations;
     }
+
+    public DateTime TimeStamp { get; }
 
     public float Abs { get; set; }
 
@@ -170,6 +173,6 @@ public class PhysicsData
     public override string ToString()
     {
         return
-            $"Physics Data Update: Packet ID: {this.PacketId}, Accelerator: {this.Accelerator}, Brake: {this.Brake}, Fuel: {this.Fuel}, Gear: {this.Gear}, RPM: {this.Rpm}, Steering Angle: {this.SteerAngle}, Speed KMH: {this.SpeedKmh}";
+            $"Physics Data Update: Time Stamp: {this.TimeStamp:hh:mm:ss.ffff}, Accelerator: {this.Accelerator}, Brake: {this.Brake}, Fuel: {this.Fuel}, Gear: {this.Gear}, RPM: {this.Rpm}, Steering Angle: {this.SteerAngle}, Speed KMH: {this.SpeedKmh}";
     }
 }

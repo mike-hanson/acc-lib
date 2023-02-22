@@ -4,6 +4,7 @@ public class GraphicsData
 {
     public GraphicsData(GraphicsPage graphicsPage)
     {
+        this.TimeStamp = DateTime.UtcNow;
         this.PacketId = graphicsPage.PacketId;
         this.Status = graphicsPage.Status;
         this.SessionType = graphicsPage.SessionType;
@@ -234,6 +235,8 @@ public class GraphicsData
 
     public float SurfaceGrip { get; }
 
+    public DateTime TimeStamp { get; }
+
     public AccRtTrackGripStatus TrackGripStatus { get; }
 
     public string TrackStatus { get; }
@@ -255,6 +258,6 @@ public class GraphicsData
     public override string ToString()
     {
         return
-            $"Graphics Data: Packet ID: {this.PacketId}, Current Time: {this.LastTime}, Current Sector Index: {this.CurrentSectorIndex}, Split: {this.Split}, In Pit lane: {this.IsInPitLane}, In Pits: {this.IsInPits}";
+            $"Graphics Data: Time Stamp: {this.TimeStamp:hh:mm:ss.ffff}, Current Time MS: {this.CurrentTimeMs}, Last Time MS: {this.LastTimeMs}, Current Sector Index: {this.CurrentSectorIndex}, Split Time Ms: {this.SplitTimeMs}, In Pit lane: {this.IsInPitLane}, In Pits: {this.IsInPits}";
     }
 }

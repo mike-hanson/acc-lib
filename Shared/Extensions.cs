@@ -46,6 +46,12 @@ public static class Extensions
 	                   .ToString(Constants.TimingFormat);
     }
 
+    public static string ToTimingString(this float timingMs)
+    {
+        return TimeSpan.FromMilliseconds(timingMs)
+                       .ToString(Constants.TimingFormat);
+    }
+
     public static string ToTimeString(this int timeMs)
     {
 	    return TimeSpan.FromMilliseconds(timeMs)
