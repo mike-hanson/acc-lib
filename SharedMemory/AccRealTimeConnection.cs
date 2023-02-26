@@ -71,7 +71,6 @@ public class AccRealTimeConnection : IDisposable
         this.runningTimers.Clear();
     }
 
-    // Protected implementation of Dispose pattern.
     protected virtual void Dispose(bool disposing)
     {
         if(this.isDisposed)
