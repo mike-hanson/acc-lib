@@ -8,7 +8,7 @@ public class AccTelemetryConnection : IDisposable
 {
     private readonly ReplaySubject<AccTelemetryFrame> framesSubject = new();
     private readonly ReplaySubject<AccTelemetryLap> newLapSubject = new();
-    private readonly ReplaySubject<StaticData> newEventSubject = new();
+    private readonly ReplaySubject<AccTelemetryEvent> newEventSubject = new();
 
     private StaticData currentEventData;
     private bool isOnActiveLap;
@@ -20,7 +20,7 @@ public class AccTelemetryConnection : IDisposable
 
     public IObservable<AccTelemetryLap> NewLap => this.newLapSubject.AsObservable();
 
-    public IObservable<StaticData> NewEvent => this.newEventSubject.AsObservable();
+    public IObservable<AccTelemetryEvent> NewEvent => this.newEventSubject.AsObservable();
 
     public void Dispose()
     {
@@ -82,7 +82,7 @@ public class AccTelemetryConnection : IDisposable
         var staticData = AccSharedMemoryProvider.ReadStaticData();
         if(this.IsNewEvent(staticData))
         {
-            this.newEventSubject.OnNext(staticData);
+            this.newEventSubject.OnNext(new AccTelemetryEvent(staticData));
             this.currentEventData = staticData;
         }
 

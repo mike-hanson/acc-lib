@@ -1,4 +1,5 @@
 ﻿using System;
+using Acc.Lib.Shared;
 
 namespace Acc.Lib.SharedMemory;
 
@@ -38,6 +39,7 @@ public class AccTelemetryFrame
         this.SplitTimeMs = graphicsData.SplitTimeMs;
         this.SteeringAngle = physicsData.SteerAngle;
         this.TrackId = staticData.Track;
+        this.TimeStamp = DateTime.UtcNow;
         this.TyreCoreTempFl = physicsData.TyreCoreTemperature[0];
         this.TyreCoreTempFr = physicsData.TyreCoreTemperature[1];
         this.TyreCoreTempRl = physicsData.TyreCoreTemperature[2];
@@ -52,83 +54,91 @@ public class AccTelemetryFrame
         this.TyreTempRr = physicsData.TyreTemp[3];
     }
 
-    public float Abs { get;}
+    public float Abs { get; }
 
-    public float Accelerator { get;}
+    public float Accelerator { get; }
 
-    public float Brake { get;}
+    public float Brake { get; }
 
-    public float BrakeTempFl { get;}
+    public float BrakeTempFl { get; }
 
-    public float BrakeTempFr { get;}
+    public float BrakeTempFr { get; }
 
-    public float BrakeTempRl { get;}
+    public float BrakeTempRl { get; }
 
-    public float BrakeTempRr { get;}
+    public float BrakeTempRr { get; }
 
-    public string CarId { get;}
+    public string CarId { get; }
 
-    public string DriverDisplayName { get;}
+    public string DriverDisplayName { get; }
 
-    public float Fuel { get;}
+    public float Fuel { get; }
 
-    public int Gear { get;}
+    public int Gear { get; }
 
-    public bool IsInvalid { get;}
+    public bool IsInvalid { get; }
 
-    public int LapTimeMs { get;}
+    public int LapTimeMs { get; }
 
-    public float NormalisedCarPosition { get;}
+    public float NormalisedCarPosition { get; }
 
-    public int Rpm { get;}
+    public int Rpm { get; }
 
-    public int SectorIndex { get;}
+    public int SectorIndex { get; }
 
-    public float SlipAngleFl { get;}
+    public float SlipAngleFl { get; }
 
-    public float SlipAngleFr { get;}
+    public float SlipAngleFr { get; }
 
-    public float SlipAngleRl { get;}
+    public float SlipAngleRl { get; }
 
-    public float SlipAngleRr { get;}
+    public float SlipAngleRr { get; }
 
-    public float SlipRatioFl { get;}
+    public float SlipRatioFl { get; }
 
-    public float SlipRatioFr { get;}
+    public float SlipRatioFr { get; }
 
-    public float SlipRatioRl { get;}
+    public float SlipRatioRl { get; }
 
-    public float SlipRatioRr { get;}
+    public float SlipRatioRr { get; }
 
-    public float SpeedKmh { get;}
+    public float SpeedKmh { get; }
 
-    public int SplitTimeMs { get;}
+    public int SplitTimeMs { get; }
 
-    public float SteeringAngle { get;}
+    public float SteeringAngle { get; }
 
-    public string TrackId { get;}
+    public DateTime TimeStamp { get; }
 
-    public float TyreCoreTempFl { get;}
+    public string TrackId { get; }
 
-    public float TyreCoreTempFr { get;}
+    public float TyreCoreTempFl { get; }
 
-    public float TyreCoreTempRl { get;}
+    public float TyreCoreTempFr { get; }
 
-    public float TyreCoreTempRr { get;}
+    public float TyreCoreTempRl { get; }
 
-    public float TyrePressureFl { get;}
+    public float TyreCoreTempRr { get; }
 
-    public float TyrePressureFr { get;}
+    public float TyrePressureFl { get; }
 
-    public float TyrePressureRl { get;}
+    public float TyrePressureFr { get; }
 
-    public float TyrePressureRr { get;}
+    public float TyrePressureRl { get; }
 
-    public float TyreTempFl { get;}
+    public float TyrePressureRr { get; }
 
-    public float TyreTempFr { get;}
+    public float TyreTempFl { get; }
 
-    public float TyreTempRl { get;}
+    public float TyreTempFr { get; }
 
-    public float TyreTempRr { get;}
+    public float TyreTempRl { get; }
+
+    public float TyreTempRr { get; }
+
+    public override string ToString()
+    {
+        return
+            $"ACC Telemetry Frame: Accelerator: {this.Accelerator} Brake: {this.Brake} RPM: {this.Rpm} Speed KMH: {this.SpeedKmh} Lap Time: {this.LapTimeMs.ToTimingString()} Sector Time: {this.SplitTimeMs.ToTimingString()}";
+    }
 }
