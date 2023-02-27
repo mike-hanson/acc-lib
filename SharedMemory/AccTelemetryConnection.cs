@@ -7,20 +7,20 @@ namespace Acc.Lib.SharedMemory;
 public class AccTelemetryConnection : IDisposable
 {
     private readonly ReplaySubject<AccTelemetryFrame> framesSubject = new();
-    private readonly ReplaySubject<AccTelemetryLap> newLapSubject = new();
     private readonly ReplaySubject<AccTelemetryEvent> newEventSubject = new();
+    private readonly ReplaySubject<AccTelemetryLap> newLapSubject = new();
+    private int actualSectorIndex;
 
     private StaticData currentEventData;
     private bool isOnActiveLap;
     private GraphicsData lastGraphicsData;
     private IDisposable updateSubscription;
-    private int actualSectorIndex;
 
     public IObservable<AccTelemetryFrame> Frames => this.framesSubject.AsObservable();
 
-    public IObservable<AccTelemetryLap> NewLap => this.newLapSubject.AsObservable();
-
     public IObservable<AccTelemetryEvent> NewEvent => this.newEventSubject.AsObservable();
+
+    public IObservable<AccTelemetryLap> NewLap => this.newLapSubject.AsObservable();
 
     public void Dispose()
     {
@@ -69,12 +69,14 @@ public class AccTelemetryConnection : IDisposable
             return true;
         }
 
-        return this.currentEventData.Track != staticData.Track
-               || this.currentEventData.CarModel != staticData.CarModel
-               || this.currentEventData.NumberOfSessions != staticData.NumberOfSessions
-               || this.currentEventData.NumberOfCars != staticData.NumberOfCars
-               || this.currentEventData.PlayerName != staticData.PlayerName
-               || this.currentEventData.IsOnline != staticData.IsOnline;
+        return !string.IsNullOrWhiteSpace(staticData.Track)
+               && !string.IsNullOrWhiteSpace(staticData.CarModel)
+               && (this.currentEventData.Track != staticData.Track
+                   || this.currentEventData.CarModel != staticData.CarModel
+                   || this.currentEventData.NumberOfSessions != staticData.NumberOfSessions
+                   || this.currentEventData.NumberOfCars != staticData.NumberOfCars
+                   || this.currentEventData.PlayerName != staticData.PlayerName
+                   || this.currentEventData.IsOnline != staticData.IsOnline);
     }
 
     private void OnNextUpdate(long index)
@@ -96,7 +98,7 @@ public class AccTelemetryConnection : IDisposable
             this.actualSectorIndex = 0;
             this.newLapSubject.OnNext(new AccTelemetryLap(staticData, graphicsData));
         }
-        
+
         if(!this.isOnActiveLap)
         {
             this.isOnActiveLap = hasStartedOutLap || hasStartedPaceLap;
@@ -110,7 +112,10 @@ public class AccTelemetryConnection : IDisposable
         if(this.isOnActiveLap)
         {
             var physicsData = AccSharedMemoryProvider.ReadPhysicsData();
-            this.framesSubject.OnNext(new AccTelemetryFrame(staticData, graphicsData, physicsData, this.actualSectorIndex));
+            this.framesSubject.OnNext(new AccTelemetryFrame(staticData,
+                                                            graphicsData,
+                                                            physicsData,
+                                                            this.actualSectorIndex));
         }
 
         this.lastGraphicsData = graphicsData;
