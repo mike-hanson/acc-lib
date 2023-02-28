@@ -104,7 +104,7 @@ public class AccTelemetryConnection : IDisposable
             this.isOnActiveLap = hasStartedOutLap || hasStartedPaceLap;
         }
 
-        if(this.isOnActiveLap && graphicsData.IsInPits)
+        if(this.isOnActiveLap && (graphicsData.IsInPits || string.IsNullOrWhiteSpace(staticData.Track)))
         {
             this.isOnActiveLap = false;
         }
@@ -112,6 +112,7 @@ public class AccTelemetryConnection : IDisposable
         if(this.isOnActiveLap)
         {
             var physicsData = AccSharedMemoryProvider.ReadPhysicsData();
+
             this.framesSubject.OnNext(new AccTelemetryFrame(staticData,
                                                             graphicsData,
                                                             physicsData,
