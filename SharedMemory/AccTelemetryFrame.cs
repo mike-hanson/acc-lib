@@ -52,6 +52,10 @@ public class AccTelemetryFrame
         this.TyreTempFr = physicsData.TyreTemp[1];
         this.TyreTempRl = physicsData.TyreTemp[2];
         this.TyreTempRr = physicsData.TyreTemp[3];
+        this.LocationX = physicsData.TyreContactPoint[0]
+                                    .X;
+        this.LocationY = physicsData.TyreContactPoint[0]
+                                    .Z;
     }
 
     public float Abs { get; }
@@ -135,6 +139,10 @@ public class AccTelemetryFrame
     public float TyreTempRl { get; }
 
     public float TyreTempRr { get; }
+
+    public float LocationX { get; set; }
+
+    public float LocationY { get; set; }
 
     public override string ToString()
     {

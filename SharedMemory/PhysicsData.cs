@@ -173,6 +173,6 @@ public class PhysicsData
     public override string ToString()
     {
         return
-            $"Physics Data Update: Time Stamp: {this.TimeStamp:hh:mm:ss.ffff}, Accelerator: {this.Accelerator}, Brake: {this.Brake}, Fuel: {this.Fuel}, Gear: {this.Gear}, RPM: {this.Rpm}, Steering Angle: {this.SteerAngle}, Speed KMH: {this.SpeedKmh}";
+            $"Physics Data Update: Time Stamp: {this.TimeStamp:hh:mm:ss.ffff}, Accelerator: {this.Accelerator}, Brake: {this.Brake}, Fuel: {this.Fuel}, Gear: {this.Gear}, RPM: {this.Rpm}, Steering Angle: {this.SteerAngle}, Speed KMH: {this.SpeedKmh}, X: {this.TyreContactPoint[0].X}, Y: {this.TyreContactPoint[0].Z}";
     }
 }
