@@ -17,11 +17,16 @@ public class AccDataProvider
     public static IEnumerable<CustomCar> GetCustomCars()
     {
         var filePaths = Directory.GetFiles(AccPathProvider.CustomCarsFolderPath, "*.json");
+        var result = new List<CustomCar>();
+        foreach(var filePath in filePaths)
+        {
+            var customCar =
+                JsonConvert.DeserializeObject<CustomCar>(CleanJson(File.ReadAllText(filePath)));
+            customCar.FilePath = filePath;
+            result.Add(customCar);
+        }
 
-        return filePaths.Select(filePath =>
-                                    JsonConvert.DeserializeObject<CustomCar>(
-                                                                             CleanJson(File.ReadAllText(filePath))))
-                        .ToList();
+        return result;
     }
 
     public static IEnumerable<CustomSkin> GetCustomSkins()
@@ -33,13 +38,10 @@ public class AccDataProvider
         foreach (var folderPath in folderPaths)
         {
             var folderName = Path.GetRelativePath(AccPathProvider.CustomLiveriesFolderPath, folderPath);
-            if (MatchesNamingConvention(folderName))
-            {
-                result.Add(new CustomSkin
-                           {
-                               Name = folderName, FolderPath = folderPath
-                           });
-            }
+            result.Add(new CustomSkin
+                       {
+                           Name = folderName, FolderPath = folderPath
+                       });
         }
 
         return result;

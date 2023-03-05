@@ -12,6 +12,7 @@ public class CustomCar
     public int CupCategory { get; set; }
     public string CustomSkinName { get; set; }
     public string DisplayName { get; set; }
+    public string FilePath { get; set; }
     public int LicenseType { get; set; }
     public int Nationality { get; set; }
     public int RaceNumber { get; set; }

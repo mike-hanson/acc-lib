@@ -88,5 +88,6 @@ public enum Nationality
     ChineseTaipei = 81,
     Chile = 82,
     Uruguay = 83,
-    Madagascar = 84
+    Madagascar = 84,
+    England = 86
 };
