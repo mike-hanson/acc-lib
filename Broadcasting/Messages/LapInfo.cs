@@ -13,7 +13,7 @@ public class LapInfo
         this.SplitCount = binaryReader.ReadByte();
         for(var i = 0; i < this.SplitCount; i++)
         {
-            this.Splits[i] = binaryReader.ReadInt32();
+            this.Splits.Add(binaryReader.ReadInt32());
         }
 
         this.IsInvalid = binaryReader.ReadByte() > 0;
@@ -35,9 +35,12 @@ public class LapInfo
             this.LapType = LapType.Regular;
         }
 
-        
-        // "null" entries are Int32.Max, in the C# world we can replace this to null
-        for(var i = 0; i < this.Splits.Count; i++)
+        while(this.Splits.Count < 3)
+        {
+            this.Splits.Add(null);
+        }
+
+        for (var i = 0; i < this.Splits.Count; i++)
         {
             if(this.Splits[i] == int.MaxValue)
             {
@@ -52,8 +55,8 @@ public class LapInfo
     }
 
     public byte SplitCount { get; set; }
-    public int LapTimeMs { get; set; }
-    public List<int> Splits { get; } = new() {0, 0, 0};
+    public int? LapTimeMs { get; set; }
+    public List<int?> Splits { get; } = new();
     public ushort CarIndex { get; internal set; }
     public ushort DriverIndex { get; internal set; }
     public bool IsInvalid { get; internal set; }
@@ -62,6 +65,6 @@ public class LapInfo
 
     public override string ToString()
     {
-        return $"Lap Time: {this.LapTimeMs.ToTimingString()} Splits: [{this.Splits[0].ToTimingString()},{this.Splits[1].ToTimingString()},{this.Splits[2].ToTimingString()}] Invalid: {this.IsInvalid}";
+        return $"Lap Time: {this.LapTimeMs.GetValueOrDefault().ToTimingString()} Splits: [{this.Splits[0].GetValueOrDefault().ToTimingString()},{this.Splits[1].GetValueOrDefault().ToTimingString()},{this.Splits[2].GetValueOrDefault().ToTimingString()}] Invalid: {this.IsInvalid}, Lap Type: {this.LapType}";
     }
 }

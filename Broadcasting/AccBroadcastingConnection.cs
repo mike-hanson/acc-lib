@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reactive.Disposables;
 using Acc.Lib.Broadcasting.Messages;
+using ConnectionState = Acc.Lib.Broadcasting.Messages.ConnectionState;
 
 namespace Acc.Lib.Broadcasting;
 
@@ -177,8 +179,9 @@ public class AccBroadcastingConnection
 	}
 
 	private void Shutdown()
-	{
-		this.broadcastingMessageHandler.Disconnect();
+    {
+        this.LogMessage("Disconnecting from ACC Broadcasting API...");
+        this.broadcastingMessageHandler.Disconnect();
 		this.subscriptionSink?.Dispose();
 		this.udpClient?.Close();
 		this.udpClient?.Dispose();

@@ -17,6 +17,6 @@ public class TrackDataUpdate
     public string TrackName { get; internal set; }
     public override string ToString()
     {
-        return $"Track Data Update: Connection: {this.ConnectionIdentifier}, Track: {this.TrackName}";
+        return $"Track Data Update: Connection: {this.ConnectionIdentifier}, Track ID {this.TrackId}, Track: {this.TrackName}, Track Meters: {this.TrackMeters}";
     }
 }
