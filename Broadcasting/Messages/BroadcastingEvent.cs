@@ -14,6 +14,6 @@ public class BroadcastingEvent
     public override string ToString()
     {
         return
-            $"Broadcasting Event: Type: {this.BroadcastingEventType} Time:{this.TimeMs.ToTimingString()} Message: {this.Message} Car Data: {this.CarData}";
+            $"Broadcasting Event: Type: {this.BroadcastingEventType} Time: {this.TimeMs.ToTimingString()} Message: {this.Message} Car Data: {this.CarData}";
     }
 }
