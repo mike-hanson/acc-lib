@@ -8,11 +8,31 @@ public class AccDataProvider
 {
     private static readonly IList<string> validCarCodes = new List<string>
                                                           {
-                                                              "AMRV8", "AR8EVO", "AR8EVOII", "BENTC", "BMWM4", "BMWM6"
-                                                            , "FER488", "FER488EVO", "HONNSX", "LAMHUR", "LAMHUREVO"
-                                                            , "LEXUSRC", "MC720S", "MERCAMG", "MERCAMGEVO", "NISGTR"
-                                                            , "PO991II"
+                                                              "AMRV8",
+                                                              "AR8EVO",
+                                                              "AR8EVOII",
+                                                              "BENTC",
+                                                              "BMWM4",
+                                                              "BMWM6",
+                                                              "FER488",
+                                                              "FER488EVO",
+                                                              "HONNSX",
+                                                              "LAMHUR",
+                                                              "LAMHUREVO",
+                                                              "LEXUSRC",
+                                                              "MC720S",
+                                                              "MERCAMG",
+                                                              "MERCAMGEVO",
+                                                              "NISGTR",
+                                                              "PO991II"
                                                           };
+    private static readonly IList<string> FilePrefixes = new List<string>
+                                                         {
+                                                             "Race",
+                                                             "Hotstint",
+                                                             "Qualifying",
+                                                             "Practice"
+                                                         };
 
     public static IEnumerable<CustomCar> GetCustomCars()
     {
@@ -35,37 +55,45 @@ public class AccDataProvider
 
         var result = new List<CustomSkin>();
 
-        foreach (var folderPath in folderPaths)
+        foreach(var folderPath in folderPaths)
         {
-            var folderName = Path.GetRelativePath(AccPathProvider.CustomLiveriesFolderPath, folderPath);
+            var folderName =
+                Path.GetRelativePath(AccPathProvider.CustomLiveriesFolderPath, folderPath);
             result.Add(new CustomSkin
                        {
-                           Name = folderName, FolderPath = folderPath
+                           Name = folderName,
+                           FolderPath = folderPath
                        });
         }
 
         return result;
     }
 
-    private static bool MatchesNamingConvention(string folderName)
+    public static IEnumerable<string> GetRecentSessionFilePaths()
     {
-        var elements = folderName.Split("-", StringSplitOptions.RemoveEmptyEntries);
-        if (elements.Length != 4)
+        return Directory.GetFiles(AccPathProvider.ResultFolderPath, "*.json")
+                        .Where(IsLocalSessionFile)
+                        .ToList();
+    }
+
+    public static IEnumerable<RaceSession> GetRecentSessions()
+    {
+        var result = new List<RaceSession>();
+
+        var sessionFilePaths = GetRecentSessionFilePaths();
+        foreach(var sessionFilePath in sessionFilePaths)
         {
-            return false;
+            var raceSession = LoadRaceSession(sessionFilePath);
+            result.Add(raceSession);
         }
 
-        if (!int.TryParse(elements[0], out var raceNumber))
-        {
-            return false;
-        }
+        return result;
+    }
 
-        if (!validCarCodes.Contains(elements[2]))
-        {
-            return false;
-        }
-
-        return elements[3] == "GT3";
+    public static bool IsLocalSessionFile(string sessionFilePath)
+    {
+        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sessionFilePath);
+        return FilePrefixes.Any(filePrefix => fileNameWithoutExtension.StartsWith(filePrefix));
     }
 
     public static RaceSession LoadRaceSession(string filePath)
@@ -77,7 +105,7 @@ public class AccDataProvider
             var json = CleanJson(fileContent);
             return JsonConvert.DeserializeObject<RaceSession>(json);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Console.WriteLine(e);
             throw;
@@ -88,24 +116,5 @@ public class AccDataProvider
     {
         return json.Replace("\0", "")
                    .Replace("\n", "");
-    }
-
-    public static IEnumerable<RaceSession> GetRecentSessions()
-    {
-        var result = new List<RaceSession>();
-
-        var sessionFilePaths = GetRecentSessionFilePaths();
-        foreach (var sessionFilePath in sessionFilePaths)
-        {
-            var raceSession = LoadRaceSession(sessionFilePath);
-            result.Add(raceSession);
-        }
-
-        return result;
-    }
-
-    public static IEnumerable<string> GetRecentSessionFilePaths()
-    {
-        return Directory.GetFiles(AccPathProvider.ResultFolderPath, "*.json");
     }
 }
