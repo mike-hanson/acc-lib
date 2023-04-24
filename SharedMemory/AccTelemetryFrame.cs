@@ -56,6 +56,7 @@ public class AccTelemetryFrame
                                     .X;
         this.LocationY = physicsData.TyreContactPoint[0]
                                     .Z;
+        this.IsEngineRunning = physicsData.IsEngineRunning;
     }
 
     public float Abs { get; }
@@ -79,6 +80,8 @@ public class AccTelemetryFrame
     public float Fuel { get; }
 
     public int Gear { get; }
+
+    public bool IsEngineRunning { get; }
 
     public bool IsInvalid { get; }
 
