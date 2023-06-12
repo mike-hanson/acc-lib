@@ -36,6 +36,11 @@ public class AccDataProvider
 
     public static IEnumerable<CustomCar> GetCustomCars()
     {
+        if(!Directory.Exists(AccPathProvider.CustomCarsFolderPath))
+        {
+            return Enumerable.Empty<CustomCar>();
+        }
+
         var filePaths = Directory.GetFiles(AccPathProvider.CustomCarsFolderPath, "*.json");
         var result = new List<CustomCar>();
         foreach(var filePath in filePaths)
@@ -51,6 +56,11 @@ public class AccDataProvider
 
     public static IEnumerable<CustomSkin> GetCustomSkins()
     {
+        if(!Directory.Exists(AccPathProvider.CustomLiveriesFolderPath))
+        {
+            return Enumerable.Empty<CustomSkin>(); 
+        }
+
         var folderPaths = Directory.GetDirectories(AccPathProvider.CustomLiveriesFolderPath);
 
         var result = new List<CustomSkin>();
@@ -71,6 +81,11 @@ public class AccDataProvider
 
     public static IEnumerable<string> GetRecentSessionFilePaths()
     {
+        if(!Directory.Exists(AccPathProvider.ResultFolderPath))
+        {
+            return Enumerable.Empty<string>();
+        }
+
         return Directory.GetFiles(AccPathProvider.ResultFolderPath, "*.json")
                         .Where(IsLocalSessionFile)
                         .ToList();
