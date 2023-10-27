@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Mike Hanson</Authors>
     <Description>Provides an implementation of the protocol for using the the Broadcasting and other APIs of Assetto Corsa Cometizione</Description>
