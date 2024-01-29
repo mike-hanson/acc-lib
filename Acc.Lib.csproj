@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Mike Hanson</Authors>
     <Description>Provides an implementation of the protocols for using the Broadcasting and Shared Memory interfaces of the Assetto Corsa Cometizione racing simulator</Description>
