@@ -66,111 +66,58 @@ public class PhysicsData
     }
 
     public DateTime TimeStamp { get; }
-
     public float Abs { get; set; }
-
     public float AbsVibrations { get; set; }
-
     public float Accelerator { get; set; }
-
     public float[] AccG { get; set; }
-
     public float AirTemp { get; set; }
-
     public bool AutoShiftOn { get; set; }
-
     public float Brake { get; set; }
-
     public float BrakeBias { get; set; }
-
     public float[] BrakePressure { get; set; }
-
     public float[] BrakeTemperature { get; set; }
-
     public float[] CarDamage { get; set; }
-
     public float Clutch { get; set; }
-
     public float[] DiscLife { get; set; }
-
     public float FinalFf { get; set; }
-
     public int FrontBrakeCompound { get; set; }
-
     public float Fuel { get; set; }
-
     public int Gear { get; set; }
-
     public float GearVibrations { get; set; }
-
     public float Heading { get; set; }
-
     public bool IgnitionOn { get; set; }
-
     public bool IsAiControlled { get; set; }
-
     public bool IsEngineRunning { get; set; }
-
     public float KerbVibration { get; set; }
-
     public float[] LocalAngularVelocity { get; set; }
-
     public float[] LocalVelocity { get; set; }
-
     public int PacketId { get; set; }
-
     public float[] PadLife { get; set; }
-
     public float Pitch { get; set; }
-
     public bool PitLimiterOn { get; set; }
-
     public int RearBrakeCompound { get; set; }
-
     public float Roll { get; set; }
-
     public int Rpm { get; set; }
-
     public float[] SlipAngle { get; set; }
-
     public float[] SlipRatio { get; set; }
-
     public float SlipVibrations { get; set; }
-
     public float SpeedKmh { get; set; }
-
     public bool StarterEngineOn { get; set; }
-
     public float SteerAngle { get; set; }
-
     public float[] SuspensionDamage { get; set; }
-
     public float[] SuspensionTravel { get; set; }
-
     public float TrackTemp { get; set; }
-
     public float TractionControl { get; set; }
-
     public float TurboBoost { get; set; }
-
     public AccRtVector3d[] TyreContactHeading { get; set; }
-
     public AccRtVector3d[] TyreContactNormal { get; set; }
-
     public AccRtVector3d[] TyreContactPoint { get; set; }
-
     public float[] TyreCoreTemperature { get; set; }
-
     public float[] TyreTemp { get; set; }
-
     public float[] Velocity { get; set; }
-
     public float WaterTemp { get; set; }
-
     public float[] WheelAngularSpeed { get; set; }
-
     public float[] WheelPressure { get; set; }
-
     public float[] WheelSlip { get; set; }
 
     public override string ToString()

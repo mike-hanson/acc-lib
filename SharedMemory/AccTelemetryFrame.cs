@@ -60,94 +60,53 @@ public class AccTelemetryFrame
         this.LocationY = physicsData.TyreContactPoint[0]
                                     .Z;
         this.IsEngineRunning = physicsData.IsEngineRunning;
+        this.TractionControl = physicsData.TractionControl;
     }
 
     public float Abs { get; }
-
     public float Accelerator { get; }
-
     public float Brake { get; }
-
     public float BrakeTempFl { get; }
-
     public float BrakeTempFr { get; }
-
     public float BrakeTempRl { get; }
-
     public float BrakeTempRr { get; }
-
     public string CarId { get; }
-
     public string DriverDisplayName { get; }
-
     public float Fuel { get; }
-
     public int Gear { get; }
-
     public bool IsEngineRunning { get; }
-
     public bool IsInvalid { get; }
-
     public int LapTimeMs { get; }
-
     public float NormalisedCarPosition { get; }
-
     public int Rpm { get; }
-
     public int SectorIndex { get; }
-
     public float SlipAngleFl { get; }
-
     public float SlipAngleFr { get; }
-
     public float SlipAngleRl { get; }
-
     public float SlipAngleRr { get; }
-
     public float SlipRatioFl { get; }
-
     public float SlipRatioFr { get; }
-
     public float SlipRatioRl { get; }
-
     public float SlipRatioRr { get; }
-
     public float SpeedKmh { get; }
-
     public int SplitTimeMs { get; }
-
     public float SteeringAngle { get; }
-
     public DateTime TimeStamp { get; }
-
     public string TrackId { get; }
-
+    public float TractionControl { get; }
     public float TyreCoreTempFl { get; }
-
     public float TyreCoreTempFr { get; }
-
     public float TyreCoreTempRl { get; }
-
     public float TyreCoreTempRr { get; }
-
     public float TyrePressureFl { get; }
-
     public float TyrePressureFr { get; }
-
     public float TyrePressureRl { get; }
-
     public float TyrePressureRr { get; }
-
     public float TyreTempFl { get; }
-
     public float TyreTempFr { get; }
-
     public float TyreTempRl { get; }
-
     public float TyreTempRr { get; }
-
     public float LocationX { get; set; }
-
     public float LocationY { get; set; }
 
     public override string ToString()
