@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Mike Hanson</Authors>
     <Description>Provides an implementation of the protocols for using the Broadcasting and Shared Memory interfaces of the Assetto Corsa Cometizione racing simulator</Description>
@@ -9,13 +9,13 @@
     <Copyright>Copyright (c) Mike Hanson 2022</Copyright>
     <RepositoryUrl>https://github.com/testpossessed/acc-lib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.2</Version>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>1.0.3</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <BaseOutputPath>bin\</BaseOutputPath>
     <Title>Assetto Corsa Competizione Library</Title>
     <PackageOutputPath />
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>acc;assetto corsa competizion</PackageTags>
+    <PackageTags>acc;assetto corsa competizione</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\acc-tools\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
@@ -39,6 +46,7 @@
     <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
