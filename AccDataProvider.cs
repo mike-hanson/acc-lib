@@ -1,4 +1,5 @@
-﻿using Acc.Lib.Exceptions;
+﻿using System.Text;
+using Acc.Lib.Exceptions;
 using Acc.Lib.Models.Customs;
 using Acc.Lib.Models.RaceResult;
 using Newtonsoft.Json;
@@ -48,9 +49,14 @@ public class AccDataProvider
         {
             try
             {
+                var content = File.ReadAllText(filePath, Encoding.Unicode);
+                if(!content.Contains("displayName") && !content.Contains("carModelType"))
+                {
+                    continue;
+                }
 
                 var customCar =
-                    JsonConvert.DeserializeObject<CustomCar>(CleanJson(File.ReadAllText(filePath)));
+                    JsonConvert.DeserializeObject<CustomCar>(CleanJson(content));
                 customCar.FilePath = filePath;
                 result.Add(customCar);
             }
