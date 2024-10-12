@@ -85,6 +85,11 @@ public class AccTelemetryConnection : IDisposable
     private void OnNextUpdate(long index)
     {
         var staticData = AccSharedMemoryProvider.ReadStaticData();
+        if(!staticData.IsActualEvent())
+        {
+            return;
+        }
+        
         if(this.IsNewEvent(staticData))
         {
             this.newEventSubject.OnNext(new AccTelemetryEvent(staticData));

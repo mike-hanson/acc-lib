@@ -103,4 +103,11 @@ public class StaticData
         return
             $"Static Data Update: ACC Version: {this.AccVersion}, Shared Memory Version: {this.SharedMemoryVersion}, Track: {this.Track}, Car Model: {this.CarModel}, Driver: {this.PlayerDisplayName()}";
     }
+
+
+    internal bool IsActualEvent()
+    {
+        return !string.IsNullOrWhiteSpace(this.AccVersion)
+               || !string.IsNullOrWhiteSpace(this.SharedMemoryVersion);
+    }
 }
