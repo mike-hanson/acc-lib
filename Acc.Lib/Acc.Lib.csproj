@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
@@ -24,30 +24,18 @@
     <None Remove="bin\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove=".git" />
-    <None Remove=".gitignore" />
-    <None Remove="LICENSE" />
-  </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\acc-tools\README.md">
+    <Content Include="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
