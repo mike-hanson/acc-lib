@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\button_blue.png" />
+    <None Remove="Assets\button_green.png" />
+    <None Remove="Assets\Icon.png" />
+    <None Remove="Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Acc.Lib\Acc.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\button_blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\button_green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icon.png" />
+  </ItemGroup>
+
+</Project>
