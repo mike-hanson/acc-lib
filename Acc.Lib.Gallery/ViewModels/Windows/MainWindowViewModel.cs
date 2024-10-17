@@ -1,59 +1,51 @@
 ﻿using System.Collections.ObjectModel;
+using Acc.Lib.Gallery.Views.Pages;
 using Wpf.Ui.Controls;
 
-namespace Acc.Lib.Gallery.ViewModels.Windows
+namespace Acc.Lib.Gallery.ViewModels.Windows;
+
+public partial class MainWindowViewModel : ObservableObject
 {
-    public partial class MainWindowViewModel : ObservableObject
-    {
-        [ObservableProperty]
-        private string applicationTitle = "ACC Lib Gallery";
+    [ObservableProperty]
+    private string applicationTitle = "ACC Lib Gallery";
 
-        [ObservableProperty]
-        private ObservableCollection<object> menuItems =
-        [
-            new NavigationViewItem()
-            {
-                Content = "Home",
-                Icon = new SymbolIcon
-                       {
-                           Symbol = SymbolRegular.Home24
-                       },
-                TargetPageType = typeof(Views.Pages.HomePage)
-            },
+    [ObservableProperty]
+    private ObservableCollection<object> footerMenuItems =
+    [
+        new NavigationViewItem("Settings",SymbolRegular.Settings24,typeof(SettingsPage))
+    ];
 
-            new NavigationViewItem()
-            {
-                Content = "ACC Detection",
-                Icon = new SymbolIcon
-                       {
-                           Symbol = SymbolRegular.Video24
-                       },
-                TargetPageType = typeof(Views.Pages.AccDetectionPage)
-            }
-        ];
+    [ObservableProperty]
+    private ObservableCollection<object> menuItems =
+    [
+        new NavigationViewItem("Home",SymbolRegular.Home24,typeof(HomePage)),
 
-        [ObservableProperty]
-        private ObservableCollection<object> footerMenuItems =
-        [
-            new NavigationViewItem()
-            {
-                Content = "Settings",
-                Icon = new SymbolIcon
-                       {
-                           Symbol = SymbolRegular.Settings24
-                       },
-                TargetPageType = typeof(Views.Pages.SettingsPage)
-            }
-        ];
+        new NavigationViewItem("Utilities", SymbolRegular.Toolbox24, typeof(UtilitiesPage))
+        {
+            MenuItemsSource = new object[]
+                              {
+                                  new NavigationViewItem("ACC Data Provider",
+                                      SymbolRegular.Class24,
+                                      typeof(AccDataProviderPage)),
+                                  new NavigationViewItem("ACC Local Config Provider",
+                                      SymbolRegular.Class24,
+                                      typeof(AccLocalConfigProviderPage)),
+                                  new NavigationViewItem("ACC Path Provider",
+                                      SymbolRegular.Class24,
+                                      typeof(AccPathProviderPage))
+                              }
+        },
 
-        [ObservableProperty]
-        private ObservableCollection<MenuItem> trayMenuItems =
-        [
-            new MenuItem
-            {
-                Header = "Home",
-                Tag = "tray_home"
-            }
-        ];
-    }
+        new NavigationViewItem("ACC Detection",SymbolRegular.Video24, typeof(AccDetectionPage))
+    ];
+
+    [ObservableProperty]
+    private ObservableCollection<MenuItem> trayMenuItems =
+    [
+        new()
+        {
+            Header = "Home",
+            Tag = "tray_home"
+        }
+    ];
 }

@@ -47,15 +47,8 @@ public partial class App
                                                                     sc.AddSingleton<
                                                                         MainWindowViewModel>();
 
-                                                                    sc.AddSingleton<
-                                                                        HomePage>();
-                                                                    sc.AddSingleton<
-                                                                        HomePageViewModel>();
-                                                                    sc.AddSingleton<AccDetectionPage>();
-                                                                    sc.AddSingleton<AccDetectionPageViewModel>();
-                                                                    sc.AddSingleton<SettingsPage>();
-                                                                    sc.AddSingleton<
-                                                                        SettingsViewModel>();
+                                                                    sc.UsePageViewModels();
+                                                                    sc.UsePages();
                                                                 })
                                              .Build();
 
