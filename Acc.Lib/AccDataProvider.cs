@@ -6,28 +6,9 @@ using Newtonsoft.Json;
 
 namespace Acc.Lib;
 
-public class AccDataProvider
+public static class AccDataProvider
 {
-    private static readonly IList<string> validCarCodes = new List<string>
-                                                          {
-                                                              "AMRV8",
-                                                              "AR8EVO",
-                                                              "AR8EVOII",
-                                                              "BENTC",
-                                                              "BMWM4",
-                                                              "BMWM6",
-                                                              "FER488",
-                                                              "FER488EVO",
-                                                              "HONNSX",
-                                                              "LAMHUR",
-                                                              "LAMHUREVO",
-                                                              "LEXUSRC",
-                                                              "MC720S",
-                                                              "MERCAMG",
-                                                              "MERCAMGEVO",
-                                                              "NISGTR",
-                                                              "PO991II"
-                                                          };
+    /// <summary>The list of valid prefixes for ACC offline result files</summary>
     private static readonly IList<string> FilePrefixes = new List<string>
                                                          {
                                                              "Race",
@@ -36,6 +17,9 @@ public class AccDataProvider
                                                              "Practice"
                                                          };
 
+    /// <summary>Gets the collection of custom car definitions.</summary>
+    /// <returns>A collection of CustomCar objects deserialised from the JSON files maintained by ACC</returns>
+    /// <exception cref = "Acc.Lib.Exceptions.InvalidCustomCarException"></exception>
     public static IEnumerable<CustomCar> GetCustomCars()
     {
         if(!Directory.Exists(AccPathProvider.CustomCarsFolderPath))
@@ -55,25 +39,26 @@ public class AccDataProvider
                     continue;
                 }
 
-                var customCar =
-                    JsonConvert.DeserializeObject<CustomCar>(CleanJson(content));
+                var customCar = JsonConvert.DeserializeObject<CustomCar>(CleanJson(content));
                 customCar.FilePath = filePath;
                 result.Add(customCar);
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
-               throw new InvalidCustomCarException(filePath, exception);
+                throw new InvalidCustomCarException(filePath, exception);
             }
         }
 
         return result;
     }
 
+    /// <summary>Gets a collection of information about custom skins/liveries</summary>
+    /// <returns>A collection of CustomSkin objects with the name of a skin and the folder path</returns>
     public static IEnumerable<CustomSkin> GetCustomSkins()
     {
         if(!Directory.Exists(AccPathProvider.CustomLiveriesFolderPath))
         {
-            return Enumerable.Empty<CustomSkin>(); 
+            return Enumerable.Empty<CustomSkin>();
         }
 
         var folderPaths = Directory.GetDirectories(AccPathProvider.CustomLiveriesFolderPath);
@@ -94,6 +79,8 @@ public class AccDataProvider
         return result;
     }
 
+    /// <summary>Gets the recent session file paths.</summary>
+    /// <returns>A collection of file paths for the offline sessions recorded by ACC</returns>
     public static IEnumerable<string> GetRecentSessionFilePaths()
     {
         if(!Directory.Exists(AccPathProvider.ResultFolderPath))
@@ -106,6 +93,8 @@ public class AccDataProvider
                         .ToList();
     }
 
+    /// <summary>Gets the recent sessions.</summary>
+    /// <returns>A collection of RaceSession object deserialised from the JSON files recorded by ACC for offline sessions </returns>
     public static IEnumerable<RaceSession> GetRecentSessions()
     {
         var result = new List<RaceSession>();
@@ -120,24 +109,30 @@ public class AccDataProvider
         return result;
     }
 
+    /// <summary>Determines whether a path is a valid offline session file</summary>
+    /// <param name="sessionFilePath">The session file path.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified path is an ofline session file, otherwise, <c>false</c>.</returns>
     public static bool IsLocalSessionFile(string sessionFilePath)
     {
         var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sessionFilePath);
         return FilePrefixes.Any(filePrefix => fileNameWithoutExtension.StartsWith(filePrefix));
     }
 
+    /// <summary>Loads an offline race session.</summary>
+    /// <param name="filePath">The file path.</param>
+    /// <returns>A RaceSession object deserialised from the JSON recorded by ACC for an offline session</returns>
     public static RaceSession LoadRaceSession(string filePath)
     {
-        Thread.Sleep(1000);
         try
         {
             var fileContent = File.ReadAllText(filePath);
             var json = CleanJson(fileContent);
             return JsonConvert.DeserializeObject<RaceSession>(json);
         }
-        catch(Exception e)
+        catch(Exception exception)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(exception);
             throw;
         }
     }
