@@ -1,10 +1,11 @@
 ﻿<Page x:Class="Acc.Lib.Gallery.Views.Pages.AccDataProviderPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Acc.Lib.Gallery.Views.Pages"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:Acc.Lib.Gallery.Controls"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:AccDataProviderPage,
                                      IsDesignTimeCreatable=False}"
@@ -13,6 +14,55 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="ACC Data Provider">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0"
+                   Grid.Row="0"
+                   Margin="20"
+                   TextWrapping="WrapWithOverflow">
+            AccDataProvider provides utility methods for retrieving and transforming JSON files that ACC maintains into
+            C# objects that you can use in your applications.  The examples below show the signature of these methods
+            and their usage.
+        </TextBlock>
+        <StackPanel Grid.Row="1">
+            <TextBlock TextWrapping="WrapWithOverflow"
+                       Margin="0 5">
+                GetCustomCars
+            </TextBlock>
+            <StackPanel x:Name="XamlCodeBlock">
+                <ui:TextBlock Margin="0,0,0,5"
+                              FontTypography="BodyStrong"
+                              Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                              Text="Signature" />
+
+                <controls:CodeBlock Padding="0"
+                                    Background="DarkGray"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Code="{Binding ViewModel.GetCustomCarsSignature}"
+                                    CodeLanguage="CSharp" />
+            </StackPanel>
+
+            <Border x:Name="Border"
+                    Margin="0,20"
+                    BorderThickness="1"
+                    Visibility="Visible" />
+
+            <StackPanel x:Name="CsharpCodeBlock">
+                <ui:TextBlock Margin="0,0,0,5"
+                              FontTypography="BodyStrong"
+                              Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                              Text="Usage" />
+
+                <controls:CodeBlock Padding="0"
+                                    Background="DarkGray"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Code="{Binding ViewModel.GetCustomCarsUsage}"
+                                    CodeLanguage="CSharp" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
