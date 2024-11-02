@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Mike Hanson</Authors>
     <Description>Provides an implementation of the protocols for using the Broadcasting and Shared Memory interfaces of the Assetto Corsa Cometizione racing simulator</Description>
@@ -36,6 +36,12 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Acc.Lib.Broadcasting\Acc.Lib.Broadcasting.csproj" />
+    <ProjectReference Include="..\Acc.Lib.Core\Acc.Lib.Core.csproj" />
+    <ProjectReference Include="..\Acc.Lib.SharedMemory\Acc.Lib.SharedMemory.csproj" />
   </ItemGroup>
 
 </Project>
