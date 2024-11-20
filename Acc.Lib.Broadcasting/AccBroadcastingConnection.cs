@@ -63,7 +63,7 @@ public class AccBroadcastingConnection
 		this.broadcastingMessageHandler.TrackDataUpdates;
 	public int UpdateInterval { get; }
 
-	public async void Connect()
+	public async void Connect(bool autoDetect = true)
 	{
 		this.subscriptionSink.Add(this.broadcastingMessageHandler.ConnectionStateChanges
 		                              .Subscribe(this.OnNextConnectionStateChange));
@@ -76,8 +76,12 @@ public class AccBroadcastingConnection
 
 		try
 		{
-			await this.WaitForPortToBeAvailable();
-			this.listenerTask = this.HandleMessages();
+            if(autoDetect)
+            {
+                await this.WaitForPortToBeAvailable();
+            }
+
+            this.listenerTask = this.HandleMessages();
 		}
 		catch(Exception exception)
 		{
@@ -167,8 +171,16 @@ public class AccBroadcastingConnection
 
 	private void OnNextDispatchedMessage(byte[] message)
 	{
-		this.udpClient?.Send(message);
-	}
+        try
+        {
+            this.udpClient?.Send(message, message.Length);
+        }
+        catch(Exception exception)
+        {
+			this.LogMessage(exception.Message);
+			Debug.WriteLine(exception);
+        }
+    }
 
 	private async Task ProcessNextMessage()
 	{
@@ -197,7 +209,7 @@ public class AccBroadcastingConnection
 			isPortAvailable = IPGlobalProperties.GetIPGlobalProperties()
 			                                    .GetActiveUdpListeners()
 			                                    .Any(p => p.Port == this.Port);
-			await Task.Delay(TimeSpan.FromSeconds(10));
+			await Task.Delay(TimeSpan.FromSeconds(5));
 		}
 	}
 }
