@@ -12,7 +12,7 @@ public class AccDetector : IDisposable
 {
     private readonly Subject<bool> isRunning = new();
     private bool isAccRunning;
-    private IDisposable updateSubscription;
+    private IDisposable? updateSubscription;
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public void Dispose()
@@ -43,6 +43,7 @@ public class AccDetector : IDisposable
         if(disposing)
         {
             this.isRunning?.Dispose();
+            this.updateSubscription?.Dispose();
         }
     }
 
