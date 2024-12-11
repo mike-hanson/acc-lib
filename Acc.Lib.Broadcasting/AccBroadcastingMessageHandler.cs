@@ -51,17 +51,23 @@ public class AccBroadcastingMessageHandler
 
     private int ConnectionId { get; set; }
 
-    public void Disconnect()
+    public void Disconnect(bool sendUnregister = true)
     {
-        using var stream = new MemoryStream();
-        using var writer = new BinaryWriter(stream);
-        writer.Write((byte)OutboundMessageTypes.UnregisterCommandApplication);
-        this.DispatchMessage(stream.ToArray());
+        if(sendUnregister)
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            writer.Write((byte)OutboundMessageTypes.UnregisterCommandApplication);
+            this.DispatchMessage(stream.ToArray());
+        }
+
+        this.connectionStateChangeSubject.OnNext(new ConnectionState(this.ConnectionId, false, false));
     }
 
     public void ProcessMessage(BinaryReader reader)
     {
         var messageType = (InboundMessageType)reader.ReadByte();
+        Debug.WriteLine($"ACC Message Received: {messageType}");
         switch(messageType)
         {
             case InboundMessageType.BroadcastingEvent:
@@ -148,17 +154,36 @@ public class AccBroadcastingMessageHandler
                                     int updateInterval,
                                     string commandPassword)
     {
-        using var stream = new MemoryStream();
-        using var writer = new BinaryWriter(stream);
-        writer.Write((byte)OutboundMessageTypes.RegisterCommandApplication);
-        writer.Write((byte)BroadcastingProtocolVersion);
+        var message = this.CreateRegisterCommandApplicationMessage(displayName, connectionPassword, updateInterval, commandPassword);
 
-        writer.WriteString(displayName);
-        writer.WriteString(connectionPassword ?? string.Empty);
-        writer.Write(updateInterval);
-        writer.WriteString(commandPassword ?? string.Empty);
+        this.DispatchMessage(message);
+    }
 
-        this.DispatchMessage(stream.ToArray());
+    internal byte[] CreateRegisterCommandApplicationMessage(
+        string displayName,
+        string connectionPassword,
+        int updateInterval,
+        string commandPassword)
+    {
+        MemoryStream stream = null;
+        try
+        {
+            stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            writer.Write((byte)OutboundMessageTypes.RegisterCommandApplication);
+            writer.Write((byte)BroadcastingProtocolVersion);
+
+            writer.WriteString(displayName);
+            writer.WriteString(connectionPassword ?? string.Empty);
+            writer.Write(updateInterval);
+            writer.WriteString(commandPassword ?? string.Empty);
+            return stream.ToArray();
+        }
+        catch
+        {
+            stream?.Dispose();
+            throw;
+        }
     }
 
     private void DispatchMessage(byte[] message)
@@ -253,14 +278,6 @@ public class AccBroadcastingMessageHandler
                                                   errMsg);
         this.connectionStateChangeSubject.OnNext(connectionState);
         Debug.WriteLine(connectionState.ToString());
-
-        if(!connectionSuccess)
-        {
-            return;
-        }
-
-        this.RequestEntryList();
-        this.RequestTrackData();
     }
 
     private void ProcessTrackDataMessage(BinaryReader reader)
@@ -271,7 +288,7 @@ public class AccBroadcastingMessageHandler
         Debug.WriteLine(update.ToString());
     }
 
-    private void RequestEntryList()
+    internal void RequestEntryList()
     {
         using var stream = new MemoryStream();
         using var writer = new BinaryWriter(stream);
@@ -281,7 +298,7 @@ public class AccBroadcastingMessageHandler
         this.DispatchMessage(stream.ToArray());
     }
 
-    private void RequestTrackData()
+    internal void RequestTrackData()
     {
         using var stream = new MemoryStream();
         using var writer = new BinaryWriter(stream);

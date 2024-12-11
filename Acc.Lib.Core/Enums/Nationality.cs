@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Acc.Lib.Broadcasting.Messages;
+namespace Acc.Lib.Core.Enums;
 
 public enum Nationality
 {

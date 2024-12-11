@@ -2,16 +2,10 @@
 
 namespace Acc.Lib.Broadcasting.Messages;
 
-public class EntryListUpdate
+public class EntryListUpdate(string sender, CarInfo carInfo)
 {
-    public EntryListUpdate(string sender, CarInfo carInfo)
-    {
-        this.Sender = sender;
-        this.CarInfo = carInfo;
-    }
-
-    public CarInfo CarInfo { get; }
-    public string Sender { get; }
+    public CarInfo CarInfo { get; } = carInfo;
+    public string Sender { get; } = sender;
 
     public override string ToString()
     {

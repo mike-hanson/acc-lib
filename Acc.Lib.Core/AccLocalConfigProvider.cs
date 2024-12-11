@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Acc.Lib.Core;
 
-public class AccLocalConfigProvider
+public static class AccLocalConfigProvider
 {
     private static readonly JsonSerializerSettings jsonSerializerSettings = new()
         {
@@ -15,33 +15,34 @@ public class AccLocalConfigProvider
                                {
                                    NamingStrategy = new CamelCaseNamingStrategy()
                                },
-            Formatting = Formatting.Indented
+            Formatting = Formatting.Indented,
+            
         };
 
-    public static Account GetAccount()
+    public static Account? GetAccount()
     {
         return DeserialiseConfigEntity<Account>(AccPathProvider.AccountFilePath);
     }
 
-    public static BroadcastingSettings GetBroadcastingSettings()
+    public static BroadcastingSettings? GetBroadcastingSettings()
     {
         return DeserialiseConfigEntity<BroadcastingSettings>(AccPathProvider
                                                                  .BroadcastingSettingsFilePath);
     }
 
-    public static SeasonSettings GetSeasonSettings()
-    {
-        return DeserialiseConfigEntity<SeasonSettings>(AccPathProvider.SeasonSettingsFilePath);
-    }
+    // public static SeasonSettings? GetSeasonSettings()
+    // {
+    //     return DeserialiseConfigEntity<SeasonSettings>(AccPathProvider.SeasonSettingsFilePath);
+    // }
 
     public static void SaveBroadcastingSettings(BroadcastingSettings settings)
     {
         var json =
             JsonConvert.SerializeObject(settings, Formatting.Indented, jsonSerializerSettings);
-        File.WriteAllText(AccPathProvider.BroadcastingSettingsFilePath, json);
+        File.WriteAllText(AccPathProvider.BroadcastingSettingsFilePath, json, Encoding.UTF8);
     }
 
-    private static T DeserialiseConfigEntity<T>(string filePath)
+    private static T? DeserialiseConfigEntity<T>(string filePath)
         where T: class
     {
         if(!File.Exists(filePath))
@@ -49,16 +50,21 @@ public class AccLocalConfigProvider
             return null;
         }
 
-        var content = NormalisedContent(filePath);
-        return JsonConvert.DeserializeObject<T>(content);
+
+        try
+        {
+            var content = GetContent(filePath, Encoding.UTF8);
+            return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+        }
+        catch (Exception)
+        {
+            var content = GetContent(filePath, Encoding.Unicode);
+            return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+        }
     }
 
-    private static string NormalisedContent(string filePath)
+    private static string GetContent(string filePath, Encoding encoding)
     {
-        var content = File.ReadAllText(filePath, Encoding.UTF8);
-
-        return content.Replace(Environment.NewLine, "")
-                      .Replace("\0", "")
-                      .Replace("\n", "");
+        return File.ReadAllText(filePath, encoding);
     }
 }

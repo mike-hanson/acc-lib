@@ -1,4 +1,5 @@
 ﻿using System;
+using Acc.Lib.Core.Models.Config;
 
 namespace Acc.Lib.Core;
 
